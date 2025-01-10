@@ -1,0 +1,200 @@
+import { StyleSheet } from 'react-native';
+
+export const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  darkContainer: {
+    backgroundColor: '#1a1a1a',
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    paddingTop: 60,
+    paddingBottom: 20,
+    backgroundColor: '#fff',
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
+  },
+  darkHeader: {
+    backgroundColor: '#1a1a1a',
+    borderBottomColor: '#333',
+  },
+  menuButton: {
+    padding: 5,
+  },
+  settingsButton: {
+    padding: 5,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  darkText: {
+    color: '#fff',
+  },
+  drawer: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    bottom: 0,
+    width: 300,
+    backgroundColor: '#fff',
+    zIndex: 2,
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+  },
+  darkDrawer: {
+    backgroundColor: '#2a2a2a',
+    borderRightColor: '#333',
+  },
+  settingsDropdown: {
+    position: 'absolute',
+    top: 45,
+    right: 0,
+    width: 200,
+    backgroundColor: '#fff',
+    borderRadius: 8,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    zIndex: 3,
+  },
+  settingsItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
+  },
+  settingsText: {
+    marginLeft: 15,
+    fontSize: 16,
+    color: '#333',
+  },
+  drawerContent: {
+    flex: 1,
+    paddingTop: 60,
+    backgroundColor: '#fff',
+  },
+  drawerItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
+  },
+  drawerItemText: {
+    marginLeft: 15,
+    fontSize: 16,
+    color: '#333',
+  },
+  overlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    zIndex: 1,
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
+    paddingHorizontal: 20,
+    paddingTop: 20,
+  },
+  input: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 8,
+    padding: 10,
+    marginRight: 10,
+    fontSize: 16,
+    backgroundColor: '#fff',
+    color: '#333',
+  },
+  darkInput: {
+    backgroundColor: '#2a2a2a',
+    borderColor: '#444',
+    color: '#fff',
+  },
+  addButton: {
+    padding: 5,
+  },
+  list: {
+    flex: 1,
+    paddingHorizontal: 20,
+  },
+  itemContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 15,
+    backgroundColor: '#f8f8f8',
+    borderRadius: 8,
+    marginBottom: 10,
+  },
+  darkItemContainer: {
+    backgroundColor: '#2a2a2a',
+  },
+  itemLeftSection: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+  },
+  checkbox: {
+    marginRight: 10,
+  },
+  itemText: {
+    fontSize: 16,
+    flex: 1,
+    color: '#333',
+  },
+  purchasedText: {
+    color: '#888',
+    textDecorationLine: 'line-through',
+  },
+  darkPurchasedText: {
+    color: '#666',
+  },
+  darkEditInput: {
+    backgroundColor: '#2a2a2a',
+    borderColor: '#444',
+    color: '#fff',
+  },
+  itemButtons: {
+    flexDirection: 'row',
+    gap: 15,
+  },
+  editContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  editInput: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 8,
+    padding: 8,
+    marginRight: 10,
+  },
+}); 
