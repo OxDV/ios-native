@@ -10,8 +10,13 @@ export type Language = 'ru' | 'en';
 export type Translations = {
   errors: {
     emptyItem: string;
+    aiError: string;
   };
   alerts: {
     error: string;
+    loading: string;
+  };
+  messages: {
+    loadingIngredients: string;
   };
 }; 

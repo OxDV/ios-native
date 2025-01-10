@@ -10,6 +10,7 @@ type Props = {
   item: string;
   onChangeItem: (text: string) => void;
   onAddItem: () => void;
+  isLoading: boolean;
 };
 
 export const AddItem: React.FC<Props> = ({
@@ -18,6 +19,7 @@ export const AddItem: React.FC<Props> = ({
   item,
   onChangeItem,
   onAddItem,
+  isLoading,
 }) => {
   return (
     <View style={styles.inputContainer}>
@@ -25,12 +27,22 @@ export const AddItem: React.FC<Props> = ({
         style={[styles.input, theme === 'dark' && styles.darkInput]}
         value={item}
         onChangeText={onChangeItem}
-        placeholder={language === 'ru' ? "Введите название продукта" : "Enter product name"}
+        placeholder={language === 'ru' ? "Введите название продукта или блюда" : "Enter product or dish name"}
         placeholderTextColor={theme === 'dark' ? '#888' : '#999'}
         onSubmitEditing={onAddItem}
+        editable={!isLoading}
       />
-      <TouchableOpacity style={styles.addButton} onPress={onAddItem}>
-        <Ionicons name="add-circle" size={44} color={theme === 'dark' ? '#4488ff' : 'blue'} />
+      <TouchableOpacity 
+        style={styles.addButton} 
+        onPress={onAddItem}
+        disabled={isLoading}
+      >
+        <Ionicons 
+          name="add-circle" 
+          size={44} 
+          color={isLoading || theme === 'dark' ? '#4488ff' : 'blue'} 
+          style={{ opacity: isLoading ? 0.5 : 1 }}
+        />
       </TouchableOpacity>
     </View>
   );

@@ -197,4 +197,9 @@ export const styles = StyleSheet.create({
     padding: 8,
     marginRight: 10,
   },
+  loadingOverlay: {
+    backgroundColor: 'rgba(0,0,0,0.3)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 }); 

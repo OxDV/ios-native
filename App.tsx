@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
-import { View, Alert, Animated, FlatList, TouchableOpacity } from 'react-native';
+import { View, Alert, Animated, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Item, Theme, Language } from './src/types';
 import { styles } from './src/styles/styles';
 import { ShoppingItem } from './src/components/ShoppingItem';
@@ -8,6 +8,7 @@ import { DrawerMenu } from './src/components/DrawerMenu';
 import { Header } from './src/components/Header';
 import { AddItem } from './src/components/AddItem';
 import { getTranslation } from './src/translations';
+import { getIngredientsForDish } from './src/services/openai';
 
 export default function App() {
   const [item, setItem] = useState('');
@@ -18,6 +19,7 @@ export default function App() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [theme, setTheme] = useState<Theme>('light');
   const [language, setLanguage] = useState<Language>('ru');
+  const [isLoading, setIsLoading] = useState(false);
   const drawerAnimation = useState(new Animated.Value(-300))[0];
 
   const toggleSettings = () => {
@@ -42,15 +44,45 @@ export default function App() {
     setIsDrawerOpen(!isDrawerOpen);
   };
 
-  const addItem = () => {
+  const addItem = async () => {
     if (item.trim() === '') {
       const t = getTranslation(language);
       Alert.alert(t.alerts.error, t.errors.emptyItem);
       return;
     }
-    
-    setItems([...items, { id: Date.now().toString(), name: item.trim(), purchased: false }]);
-    setItem('');
+
+    try {
+      setIsLoading(true);
+      const t = getTranslation(language);
+      
+      // Try to get ingredients if it's a dish
+      const ingredients = await getIngredientsForDish(item);
+      
+      if (ingredients.length > 0) {
+        // Add all ingredients as separate items
+        const newItems = ingredients.map(ingredient => ({
+          id: Date.now().toString() + Math.random(),
+          name: ingredient,
+          purchased: false,
+        }));
+        
+        setItems(prevItems => [...prevItems, ...newItems]);
+        setItem('');
+      } else {
+        // If no ingredients found, add as a regular item
+        setItems(prevItems => [...prevItems, { 
+          id: Date.now().toString(), 
+          name: item.trim(), 
+          purchased: false 
+        }]);
+        setItem('');
+      }
+    } catch (error) {
+      const t = getTranslation(language);
+      Alert.alert(t.alerts.error, t.errors.aiError);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const deleteItem = (id: string) => {
@@ -102,7 +134,14 @@ export default function App() {
         item={item}
         onChangeItem={setItem}
         onAddItem={addItem}
+        isLoading={isLoading}
       />
+
+      {isLoading && (
+        <View style={[styles.overlay, styles.loadingOverlay]}>
+          <ActivityIndicator size="large" color={theme === 'dark' ? '#fff' : '#000'} />
+        </View>
+      )}
 
       <FlatList
         data={items}
