@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
-import { View, Alert, Animated, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, Alert, Animated, FlatList, TouchableOpacity, ActivityIndicator, Text } from 'react-native';
 import { Item, Theme, Language } from './src/types';
 import { styles } from './src/styles/styles';
 import { ShoppingItem } from './src/components/ShoppingItem';
@@ -108,6 +108,25 @@ export default function App() {
     ));
   };
 
+  const clearAllItems = () => {
+    const t = getTranslation(language);
+    Alert.alert(
+      t.alerts.clearTitle,
+      t.alerts.clearConfirm,
+      [
+        {
+          text: t.buttons.cancel,
+          style: 'cancel'
+        },
+        {
+          text: t.buttons.confirm,
+          style: 'destructive',
+          onPress: () => setItems([])
+        }
+      ]
+    );
+  };
+
   return (
     <View style={[styles.container, theme === 'dark' && styles.darkContainer]}>
       <StatusBar style={theme === 'dark' ? 'light' : 'dark'} />
@@ -136,6 +155,17 @@ export default function App() {
         onAddItem={addItem}
         isLoading={isLoading}
       />
+
+      {items.length > 0 && (
+        <TouchableOpacity
+          style={[styles.clearButton, theme === 'dark' && styles.clearButtonDark]}
+          onPress={clearAllItems}
+        >
+          <Text style={styles.clearButtonText}>
+            {getTranslation(language).buttons.clearAll}
+          </Text>
+        </TouchableOpacity>
+      )}
 
       {isLoading && (
         <View style={[styles.overlay, styles.loadingOverlay]}>

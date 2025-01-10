@@ -9,9 +9,16 @@ const translations: Record<Language, Translations> = {
     alerts: {
       error: 'Ошибка',
       loading: 'Загрузка',
+      clearConfirm: 'Вы уверены, что хотите очистить весь список?',
+      clearTitle: 'Очистить список',
     },
     messages: {
       loadingIngredients: 'Получаем список ингредиентов...',
+    },
+    buttons: {
+      clearAll: 'Очистить всё',
+      cancel: 'Отмена',
+      confirm: 'Подтвердить',
     },
   },
   en: {
@@ -22,9 +29,16 @@ const translations: Record<Language, Translations> = {
     alerts: {
       error: 'Error',
       loading: 'Loading',
+      clearConfirm: 'Are you sure you want to clear the entire list?',
+      clearTitle: 'Clear List',
     },
     messages: {
       loadingIngredients: 'Getting ingredients list...',
+    },
+    buttons: {
+      clearAll: 'Clear All',
+      cancel: 'Cancel',
+      confirm: 'Confirm',
     },
   },
 };

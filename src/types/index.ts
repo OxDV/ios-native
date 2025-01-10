@@ -15,8 +15,15 @@ export type Translations = {
   alerts: {
     error: string;
     loading: string;
+    clearConfirm: string;
+    clearTitle: string;
   };
   messages: {
     loadingIngredients: string;
+  };
+  buttons: {
+    clearAll: string;
+    cancel: string;
+    confirm: string;
   };
 }; 

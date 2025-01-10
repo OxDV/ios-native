@@ -202,4 +202,20 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  clearButton: {
+    backgroundColor: '#ff4444',
+    padding: 10,
+    borderRadius: 8,
+    marginHorizontal: 20,
+    marginBottom: 10,
+  },
+  clearButtonDark: {
+    backgroundColor: '#cc0000',
+  },
+  clearButtonText: {
+    color: '#fff',
+    textAlign: 'center',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
 }); 
