@@ -7,6 +7,7 @@ import { ShoppingItem } from './src/components/ShoppingItem';
 import { DrawerMenu } from './src/components/DrawerMenu';
 import { Header } from './src/components/Header';
 import { AddItem } from './src/components/AddItem';
+import { getTranslation } from './src/translations';
 
 export default function App() {
   const [item, setItem] = useState('');
@@ -43,7 +44,8 @@ export default function App() {
 
   const addItem = () => {
     if (item.trim() === '') {
-      Alert.alert('Ошибка', 'Пожалуйста, введите название продукта');
+      const t = getTranslation(language);
+      Alert.alert(t.alerts.error, t.errors.emptyItem);
       return;
     }
     
