@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Alert } from 'react-native';
 import { Item, Language } from '../types';
 import { getTranslation } from '../translations';
 import { getRecipeWithIngredients } from '../services/openai';
 import { createShoppingItem } from '../utils/shopping';
+import { saveItems, loadItems, saveRecipe, loadRecipe } from '../utils/storage';
 
 export const useShoppingList = (language: Language) => {
   const [items, setItems] = useState<Item[]>([]);
@@ -12,6 +13,31 @@ export const useShoppingList = (language: Language) => {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [lastRecipe, setLastRecipe] = useState<string>('');
+
+  // Загрузка сохраненных данных при инициализации
+  useEffect(() => {
+    const loadSavedData = async () => {
+      const [savedItems, savedRecipe] = await Promise.all([
+        loadItems(),
+        loadRecipe()
+      ]);
+      setItems(savedItems);
+      setLastRecipe(savedRecipe);
+    };
+    loadSavedData();
+  }, []);
+
+  // Сохранение items при изменении
+  useEffect(() => {
+    saveItems(items);
+  }, [items]);
+
+  // Сохранение рецепта при изменении
+  useEffect(() => {
+    if (lastRecipe) {
+      saveRecipe(lastRecipe);
+    }
+  }, [lastRecipe]);
 
   const addItem = async () => {
     if (item.trim() === '') {
