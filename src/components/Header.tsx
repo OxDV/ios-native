@@ -1,68 +1,47 @@
 import React from 'react';
-import { View, TouchableOpacity, Text } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { View, Text, StyleSheet } from 'react-native';
 import { Theme, Language } from '../types';
-import { styles } from '../styles/styles';
-import { getIconColor } from '../utils/theme';
 
 type Props = {
   theme: Theme;
   language: Language;
-  isSettingsOpen: boolean;
-  onToggleDrawer: () => void;
-  onToggleSettings: () => void;
-  onToggleTheme: () => void;
-  onToggleLanguage: () => void;
 };
 
 export const Header: React.FC<Props> = ({
   theme,
   language,
-  isSettingsOpen,
-  onToggleDrawer,
-  onToggleSettings,
-  onToggleTheme,
-  onToggleLanguage,
 }) => {
-  const iconColor = getIconColor(theme);
-
   return (
     <View style={[styles.header, theme === 'dark' && styles.darkHeader]}>
-      <TouchableOpacity onPress={onToggleDrawer} style={styles.menuButton}>
-        <Ionicons name="menu" size={28} color={iconColor} />
-      </TouchableOpacity>
       <Text style={[styles.title, theme === 'dark' && styles.darkText]}>
         {language === 'ru' ? 'Список покупок' : 'Shopping List'}
       </Text>
-      <View>
-        <TouchableOpacity style={styles.settingsButton} onPress={onToggleSettings}>
-          <Ionicons name="settings-outline" size={24} color={iconColor} />
-        </TouchableOpacity>
-        
-        {isSettingsOpen && (
-          <View style={[styles.settingsDropdown, theme === 'dark' && styles.darkDrawer]}>
-            <TouchableOpacity style={styles.settingsItem} onPress={onToggleTheme}>
-              <Ionicons 
-                name={theme === 'light' ? 'moon' : 'sunny'} 
-                size={24} 
-                color={iconColor}
-              />
-              <Text style={[styles.settingsText, theme === 'dark' && styles.darkText]}>
-                {language === 'ru' ? 
-                  (theme === 'light' ? 'Темная тема' : 'Светлая тема') : 
-                  (theme === 'light' ? 'Dark Theme' : 'Light Theme')}
-              </Text>
-            </TouchableOpacity>
-            
-            <TouchableOpacity style={styles.settingsItem} onPress={onToggleLanguage}>
-              <Ionicons name="language" size={24} color={iconColor} />
-              <Text style={[styles.settingsText, theme === 'dark' && styles.darkText]}>
-                {language === 'ru' ? 'English' : 'Русский'}
-              </Text>
-            </TouchableOpacity>
-          </View>
-        )}
-      </View>
     </View>
   );
-}; 
+};
+
+const styles = StyleSheet.create({
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 20,
+    paddingTop: 60,
+    paddingBottom: 20,
+    backgroundColor: '#fff',
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
+  },
+  darkHeader: {
+    backgroundColor: '#1a1a1a',
+    borderBottomColor: '#333',
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  darkText: {
+    color: '#fff',
+  },
+}); 
