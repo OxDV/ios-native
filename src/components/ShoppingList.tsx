@@ -30,6 +30,8 @@ export const ShoppingList: React.FC<Props> = ({ theme, language }) => {
     showRecipe
   } = useShoppingList(language);
 
+  const t = getTranslation(language);
+
   return (
     <View style={styles.container}>
       <AddItem
@@ -48,7 +50,7 @@ export const ShoppingList: React.FC<Props> = ({ theme, language }) => {
             onPress={showRecipe}
           >
             <Text style={styles.buttonText}>
-              {getTranslation(language).buttons.recipe}
+              {t.buttons.recipe}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -56,7 +58,7 @@ export const ShoppingList: React.FC<Props> = ({ theme, language }) => {
             onPress={clearAllItems}
           >
             <Text style={styles.buttonText}>
-              {getTranslation(language).buttons.clearAll}
+              {t.buttons.clearAll}
             </Text>
           </TouchableOpacity>
         </View>
@@ -74,6 +76,7 @@ export const ShoppingList: React.FC<Props> = ({ theme, language }) => {
           <ShoppingItem
             item={listItem}
             theme={theme}
+            language={language}
             editingId={editingId}
             editingItem={editingItem}
             onEdit={startEditing}

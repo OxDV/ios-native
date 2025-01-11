@@ -3,6 +3,7 @@ import { View, TextInput, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Theme, Language } from '../types';
 import { styles } from '../styles/styles';
+import { getTranslation } from '../translations';
 
 type Props = {
   theme: Theme;
@@ -21,13 +22,15 @@ export const AddItem: React.FC<Props> = ({
   onAddItem,
   isLoading,
 }) => {
+  const t = getTranslation(language);
+
   return (
     <View style={styles.inputContainer}>
       <TextInput
         style={[styles.input, theme === 'dark' && styles.darkInput]}
         value={item}
         onChangeText={onChangeItem}
-        placeholder={language === 'ru' ? "Введите название продукта или блюда" : "Enter product or dish name"}
+        placeholder={t.errors.emptyItem}
         placeholderTextColor={theme === 'dark' ? '#888' : '#999'}
         onSubmitEditing={onAddItem}
         editable={!isLoading}

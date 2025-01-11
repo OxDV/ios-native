@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Theme, Language } from '../types';
+import { getTranslation } from '../translations';
 
 type Props = {
   theme: Theme;
@@ -11,10 +12,12 @@ export const Header: React.FC<Props> = ({
   theme,
   language,
 }) => {
+  const t = getTranslation(language);
+
   return (
     <View style={[styles.header, theme === 'dark' && styles.darkHeader]}>
       <Text style={[styles.title, theme === 'dark' && styles.darkText]}>
-        {language === 'ru' ? 'Список покупок' : 'Shopping List'}
+        {t.alerts.appName}
       </Text>
     </View>
   );

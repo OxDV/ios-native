@@ -1,12 +1,14 @@
 import React from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { Item, Theme } from '../types';
+import { Item, Theme, Language } from '../types';
 import { styles } from '../styles/styles';
+import { getTranslation } from '../translations';
 
 type Props = {
   item: Item;
   theme: Theme;
+  language: Language;
   editingId: string | null;
   editingItem: string;
   onEdit: (id: string, name: string) => void;
@@ -19,6 +21,7 @@ type Props = {
 export const ShoppingItem: React.FC<Props> = ({
   item: { id, name, purchased },
   theme,
+  language,
   editingId,
   editingItem,
   onEdit,
@@ -27,6 +30,8 @@ export const ShoppingItem: React.FC<Props> = ({
   onToggle,
   setEditingItem,
 }) => {
+  const t = getTranslation(language);
+
   if (editingId === id) {
     return (
       <View style={[styles.itemContainer, theme === 'dark' && styles.darkItemContainer]}>
@@ -36,6 +41,8 @@ export const ShoppingItem: React.FC<Props> = ({
             value={editingItem}
             onChangeText={setEditingItem}
             autoFocus
+            placeholder={t.errors.emptyItem}
+            placeholderTextColor={theme === 'dark' ? '#888' : '#999'}
           />
           <TouchableOpacity onPress={() => onSaveEdit(id)}>
             <Ionicons name="checkmark-circle" size={24} color={theme === 'dark' ? '#4CAF50' : 'green'} />

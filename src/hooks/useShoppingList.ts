@@ -56,7 +56,10 @@ export const useShoppingList = (language: Language) => {
         .filter(line => line.trim().startsWith('-'))
         .map(line => line.trim().substring(2).trim());
       
-      const recipeSection = response.split(/Рецепт:|Recipe:/)[1];
+      // Получаем слово "Рецепт" на текущем языке
+      const recipeWord = t.alerts.recipe;
+      // Ищем рецепт после слова "Рецепт:" на любом языке
+      const recipeSection = response.split(new RegExp(`${recipeWord}:|Recipe:|Rezept:|Recette:|食谱:|Przepis:|Ricetta:|Receta:`))[1];
       if (recipeSection) {
         setLastRecipe(recipeSection.trim());
       }

@@ -18,6 +18,7 @@ const translations: Record<Language, Translations> = {
       selectLanguage: 'Выберите язык',
       darkTheme: 'Темная тема',
       lightTheme: 'Светлая тема',
+      appName: 'Список покупок',
     },
     messages: {
       loadingIngredients: 'Получаем список ингредиентов...',
@@ -58,6 +59,7 @@ const translations: Record<Language, Translations> = {
       selectLanguage: 'Select Language',
       darkTheme: 'Dark Theme',
       lightTheme: 'Light Theme',
+      appName: 'Shopping List',
     },
     messages: {
       loadingIngredients: 'Getting ingredients list...',
@@ -98,6 +100,7 @@ const translations: Record<Language, Translations> = {
       selectLanguage: 'Оберіть мову',
       darkTheme: 'Темна тема',
       lightTheme: 'Світла тема',
+      appName: 'Список покупок',
     },
     messages: {
       loadingIngredients: 'Отримуємо список інгредієнтів...',
@@ -138,6 +141,7 @@ const translations: Record<Language, Translations> = {
       selectLanguage: 'Sprache auswählen',
       darkTheme: 'Dunkles Thema',
       lightTheme: 'Helles Thema',
+      appName: 'Einkaufsliste',
     },
     messages: {
       loadingIngredients: 'Zutatenliste wird abgerufen...',
@@ -178,6 +182,7 @@ const translations: Record<Language, Translations> = {
       selectLanguage: 'Choisir la langue',
       darkTheme: 'Thème sombre',
       lightTheme: 'Thème clair',
+      appName: 'Liste de courses',
     },
     messages: {
       loadingIngredients: 'Obtention de la liste des ingrédients...',
@@ -218,6 +223,7 @@ const translations: Record<Language, Translations> = {
       selectLanguage: '选择语言',
       darkTheme: '深色主题',
       lightTheme: '浅色主题',
+      appName: '购物清单',
     },
     messages: {
       loadingIngredients: '正在获取配料列表...',
@@ -258,6 +264,7 @@ const translations: Record<Language, Translations> = {
       selectLanguage: 'Wybierz język',
       darkTheme: 'Ciemny motyw',
       lightTheme: 'Jasny motyw',
+      appName: 'Lista zakupów',
     },
     messages: {
       loadingIngredients: 'Pobieranie listy składników...',
@@ -298,6 +305,7 @@ const translations: Record<Language, Translations> = {
       selectLanguage: 'Seleziona lingua',
       darkTheme: 'Tema scuro',
       lightTheme: 'Tema chiaro',
+      appName: 'Lista della spesa',
     },
     messages: {
       loadingIngredients: 'Recupero lista ingredienti...',
@@ -338,6 +346,7 @@ const translations: Record<Language, Translations> = {
       selectLanguage: 'Seleccionar idioma',
       darkTheme: 'Tema oscuro',
       lightTheme: 'Tema claro',
+      appName: 'Lista de compras',
     },
     messages: {
       loadingIngredients: 'Obteniendo lista de ingredientes...',

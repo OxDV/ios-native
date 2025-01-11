@@ -24,6 +24,7 @@ export type Translations = {
     selectLanguage: string;
     darkTheme: string;
     lightTheme: string;
+    appName: string;
   };
   messages: {
     loadingIngredients: string;
