@@ -3,6 +3,7 @@ import { Alert } from 'react-native';
 import { Item, Language } from '../types';
 import { getTranslation } from '../translations';
 import { getRecipeWithIngredients } from '../services/openai';
+import { createShoppingItem } from '../utils/shopping';
 
 export const useShoppingList = (language: Language) => {
   const [items, setItems] = useState<Item[]>([]);
@@ -35,22 +36,12 @@ export const useShoppingList = (language: Language) => {
       }
       
       if (ingredients.length > 0) {
-        const newItems = ingredients.map(ingredient => ({
-          id: Date.now().toString() + Math.random(),
-          name: ingredient,
-          purchased: false,
-        }));
-        
+        const newItems = ingredients.map(ingredient => createShoppingItem(ingredient));
         setItems(prevItems => [...prevItems, ...newItems]);
-        setItem('');
       } else {
-        setItems(prevItems => [...prevItems, { 
-          id: Date.now().toString(), 
-          name: item.trim(), 
-          purchased: false 
-        }]);
-        setItem('');
+        setItems(prevItems => [...prevItems, createShoppingItem(item)]);
       }
+      setItem('');
     } catch (error) {
       const t = getTranslation(language);
       Alert.alert(t.alerts.error, t.errors.aiError);
@@ -69,6 +60,8 @@ export const useShoppingList = (language: Language) => {
   };
 
   const saveEdit = (id: string) => {
+    if (editingItem.trim() === '') return;
+    
     setItems(items.map(currentItem => 
       currentItem.id === id ? { ...currentItem, name: editingItem.trim() } : currentItem
     ));
@@ -95,7 +88,10 @@ export const useShoppingList = (language: Language) => {
         {
           text: t.buttons.confirm,
           style: 'destructive',
-          onPress: () => setItems([])
+          onPress: () => {
+            setItems([]);
+            setLastRecipe('');
+          }
         }
       ]
     );

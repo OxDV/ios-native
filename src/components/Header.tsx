@@ -3,6 +3,7 @@ import { View, TouchableOpacity, Text } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Theme, Language } from '../types';
 import { styles } from '../styles/styles';
+import { getIconColor } from '../utils/theme';
 
 type Props = {
   theme: Theme;
@@ -23,17 +24,19 @@ export const Header: React.FC<Props> = ({
   onToggleTheme,
   onToggleLanguage,
 }) => {
+  const iconColor = getIconColor(theme);
+
   return (
     <View style={[styles.header, theme === 'dark' && styles.darkHeader]}>
       <TouchableOpacity onPress={onToggleDrawer} style={styles.menuButton}>
-        <Ionicons name="menu" size={28} color={theme === 'dark' ? '#fff' : '#333'} />
+        <Ionicons name="menu" size={28} color={iconColor} />
       </TouchableOpacity>
       <Text style={[styles.title, theme === 'dark' && styles.darkText]}>
         {language === 'ru' ? 'Список покупок' : 'Shopping List'}
       </Text>
       <View>
         <TouchableOpacity style={styles.settingsButton} onPress={onToggleSettings}>
-          <Ionicons name="settings-outline" size={24} color={theme === 'dark' ? '#fff' : '#333'} />
+          <Ionicons name="settings-outline" size={24} color={iconColor} />
         </TouchableOpacity>
         
         {isSettingsOpen && (
@@ -42,7 +45,7 @@ export const Header: React.FC<Props> = ({
               <Ionicons 
                 name={theme === 'light' ? 'moon' : 'sunny'} 
                 size={24} 
-                color={theme === 'dark' ? '#fff' : '#333'} 
+                color={iconColor}
               />
               <Text style={[styles.settingsText, theme === 'dark' && styles.darkText]}>
                 {language === 'ru' ? 
@@ -52,7 +55,7 @@ export const Header: React.FC<Props> = ({
             </TouchableOpacity>
             
             <TouchableOpacity style={styles.settingsItem} onPress={onToggleLanguage}>
-              <Ionicons name="language" size={24} color={theme === 'dark' ? '#fff' : '#333'} />
+              <Ionicons name="language" size={24} color={iconColor} />
               <Text style={[styles.settingsText, theme === 'dark' && styles.darkText]}>
                 {language === 'ru' ? 'English' : 'Русский'}
               </Text>
