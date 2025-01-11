@@ -142,6 +142,10 @@ export const styles = StyleSheet.create({
   list: {
     flex: 1,
     paddingHorizontal: 20,
+    backgroundColor: '#fff',
+  },
+  darkList: {
+    backgroundColor: '#1a1a1a',
   },
   itemContainer: {
     flexDirection: 'row',

@@ -28,12 +28,12 @@ export const ShoppingList: React.FC<Props> = ({ theme, language }) => {
     togglePurchased,
     clearAllItems,
     showRecipe
-  } = useShoppingList(language);
+  } = useShoppingList(language, theme);
 
   const t = getTranslation(language);
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, theme === 'dark' && styles.darkContainer]}>
       <AddItem
         theme={theme}
         language={language}
@@ -87,7 +87,7 @@ export const ShoppingList: React.FC<Props> = ({ theme, language }) => {
           />
         )}
         keyExtractor={item => item.id}
-        style={styles.list}
+        style={[styles.list, theme === 'dark' && styles.darkList]}
       />
     </View>
   );

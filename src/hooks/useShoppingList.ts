@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
-import { Alert } from 'react-native';
-import { Item, Language } from '../types';
+import { Alert, AlertButton } from 'react-native';
+import { Item, Language, Theme } from '../types';
 import { getTranslation } from '../translations';
 import { getRecipeWithIngredients } from '../services/openai';
 import { createShoppingItem } from '../utils/shopping';
 import { saveItems, loadItems, saveRecipe, loadRecipe } from '../utils/storage';
 
-export const useShoppingList = (language: Language) => {
+export const useShoppingList = (language: Language, theme: Theme) => {
   const [items, setItems] = useState<Item[]>([]);
   const [item, setItem] = useState('');
   const [editingItem, setEditingItem] = useState('');
@@ -106,23 +106,32 @@ export const useShoppingList = (language: Language) => {
 
   const clearAllItems = () => {
     const t = getTranslation(language);
+
+    const buttons: AlertButton[] = [
+      {
+        text: t.buttons.cancel,
+        style: 'cancel',
+        isPreferred: false,
+      },
+      {
+        text: t.buttons.confirm,
+        style: 'destructive',
+        isPreferred: true,
+        onPress: () => {
+          setItems([]);
+          setLastRecipe('');
+        },
+      },
+    ];
+
     Alert.alert(
       t.alerts.clearTitle,
       t.alerts.clearConfirm,
-      [
-        {
-          text: t.buttons.cancel,
-          style: 'cancel'
-        },
-        {
-          text: t.buttons.confirm,
-          style: 'destructive',
-          onPress: () => {
-            setItems([]);
-            setLastRecipe('');
-          }
-        }
-      ]
+      buttons,
+      {
+        cancelable: true,
+        userInterfaceStyle: theme,
+      }
     );
   };
 
@@ -130,7 +139,15 @@ export const useShoppingList = (language: Language) => {
     if (items.length === 0 || !lastRecipe) return;
     
     const t = getTranslation(language);
-    Alert.alert(t.alerts.recipe, lastRecipe);
+    Alert.alert(
+      t.alerts.recipe,
+      lastRecipe,
+      [{ text: 'OK', style: 'default' }],
+      {
+        cancelable: true,
+        userInterfaceStyle: theme,
+      }
+    );
   };
 
   return {
