@@ -11,14 +11,17 @@ const translations: Record<Language, Translations> = {
       loading: 'Загрузка',
       clearConfirm: 'Вы уверены, что хотите очистить весь список?',
       clearTitle: 'Очистить список',
+      recipe: 'Рецепт',
     },
     messages: {
       loadingIngredients: 'Получаем список ингредиентов...',
+      gettingRecipe: 'Получаем рецепт...',
     },
     buttons: {
       clearAll: 'Очистить всё',
       cancel: 'Отмена',
       confirm: 'Подтвердить',
+      recipe: 'Рецепт',
     },
   },
   en: {
@@ -31,14 +34,17 @@ const translations: Record<Language, Translations> = {
       loading: 'Loading',
       clearConfirm: 'Are you sure you want to clear the entire list?',
       clearTitle: 'Clear List',
+      recipe: 'Recipe',
     },
     messages: {
       loadingIngredients: 'Getting ingredients list...',
+      gettingRecipe: 'Getting recipe...',
     },
     buttons: {
       clearAll: 'Clear All',
       cancel: 'Cancel',
       confirm: 'Confirm',
+      recipe: 'Recipe',
     },
   },
 };

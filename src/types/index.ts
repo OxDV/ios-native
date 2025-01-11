@@ -17,13 +17,16 @@ export type Translations = {
     loading: string;
     clearConfirm: string;
     clearTitle: string;
+    recipe: string;
   };
   messages: {
     loadingIngredients: string;
+    gettingRecipe: string;
   };
   buttons: {
     clearAll: string;
     cancel: string;
     confirm: string;
+    recipe: string;
   };
 }; 

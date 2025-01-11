@@ -8,7 +8,7 @@ import { DrawerMenu } from './src/components/DrawerMenu';
 import { Header } from './src/components/Header';
 import { AddItem } from './src/components/AddItem';
 import { getTranslation } from './src/translations';
-import { getIngredientsForDish } from './src/services/openai';
+import { getRecipeWithIngredients } from './src/services/openai';
 
 export default function App() {
   const [item, setItem] = useState('');
@@ -20,6 +20,7 @@ export default function App() {
   const [theme, setTheme] = useState<Theme>('light');
   const [language, setLanguage] = useState<Language>('ru');
   const [isLoading, setIsLoading] = useState(false);
+  const [lastRecipe, setLastRecipe] = useState<string>('');
   const drawerAnimation = useState(new Animated.Value(-300))[0];
 
   const toggleSettings = () => {
@@ -55,11 +56,18 @@ export default function App() {
       setIsLoading(true);
       const t = getTranslation(language);
       
-      // Try to get ingredients if it's a dish
-      const ingredients = await getIngredientsForDish(item);
+      const response = await getRecipeWithIngredients(item);
+      const ingredients = response
+        .split('\n')
+        .filter(line => line.trim().startsWith('-'))
+        .map(line => line.trim().substring(2).trim());
+      
+      const recipeSection = response.split(/Рецепт:|Recipe:/)[1];
+      if (recipeSection) {
+        setLastRecipe(recipeSection.trim());
+      }
       
       if (ingredients.length > 0) {
-        // Add all ingredients as separate items
         const newItems = ingredients.map(ingredient => ({
           id: Date.now().toString() + Math.random(),
           name: ingredient,
@@ -69,7 +77,6 @@ export default function App() {
         setItems(prevItems => [...prevItems, ...newItems]);
         setItem('');
       } else {
-        // If no ingredients found, add as a regular item
         setItems(prevItems => [...prevItems, { 
           id: Date.now().toString(), 
           name: item.trim(), 
@@ -127,6 +134,13 @@ export default function App() {
     );
   };
 
+  const showRecipe = () => {
+    if (items.length === 0 || !lastRecipe) return;
+    
+    const t = getTranslation(language);
+    Alert.alert(t.alerts.recipe, lastRecipe);
+  };
+
   return (
     <View style={[styles.container, theme === 'dark' && styles.darkContainer]}>
       <StatusBar style={theme === 'dark' ? 'light' : 'dark'} />
@@ -157,14 +171,24 @@ export default function App() {
       />
 
       {items.length > 0 && (
-        <TouchableOpacity
-          style={[styles.clearButton, theme === 'dark' && styles.clearButtonDark]}
-          onPress={clearAllItems}
-        >
-          <Text style={styles.clearButtonText}>
-            {getTranslation(language).buttons.clearAll}
-          </Text>
-        </TouchableOpacity>
+        <View style={styles.buttonsContainer}>
+          <TouchableOpacity
+            style={[styles.recipeButton, theme === 'dark' && styles.recipeButtonDark]}
+            onPress={showRecipe}
+          >
+            <Text style={styles.buttonText}>
+              {getTranslation(language).buttons.recipe}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.clearButton, theme === 'dark' && styles.clearButtonDark]}
+            onPress={clearAllItems}
+          >
+            <Text style={styles.buttonText}>
+              {getTranslation(language).buttons.clearAll}
+            </Text>
+          </TouchableOpacity>
+        </View>
       )}
 
       {isLoading && (

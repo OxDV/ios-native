@@ -202,17 +202,32 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  buttonsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginHorizontal: 20,
+    marginBottom: 10,
+    gap: 10,
+  },
   clearButton: {
     backgroundColor: '#ff4444',
     padding: 10,
     borderRadius: 8,
-    marginHorizontal: 20,
-    marginBottom: 10,
+    flex: 1,
+  },
+  recipeButton: {
+    backgroundColor: '#4CAF50',
+    padding: 10,
+    borderRadius: 8,
+    flex: 1,
   },
   clearButtonDark: {
     backgroundColor: '#cc0000',
   },
-  clearButtonText: {
+  recipeButtonDark: {
+    backgroundColor: '#388E3C',
+  },
+  buttonText: {
     color: '#fff',
     textAlign: 'center',
     fontSize: 16,
