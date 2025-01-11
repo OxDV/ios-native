@@ -5,7 +5,7 @@ export type Item = {
 };
 
 export type Theme = 'light' | 'dark';
-export type Language = 'ru' | 'en';
+export type Language = 'ru' | 'en' | 'uk' | 'de' | 'fr' | 'zh' | 'pl' | 'it' | 'es';
 
 export type Translations = {
   errors: {
@@ -28,5 +28,16 @@ export type Translations = {
     cancel: string;
     confirm: string;
     recipe: string;
+  };
+  languages: {
+    ru: string;
+    en: string;
+    uk: string;
+    de: string;
+    fr: string;
+    zh: string;
+    pl: string;
+    it: string;
+    es: string;
   };
 }; 

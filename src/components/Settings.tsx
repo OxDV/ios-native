@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Theme, Language } from '../types';
 import { getIconColor } from '../utils/theme';
 import { getTranslation } from '../translations';
+import { LanguageSelector } from './LanguageSelector';
 
 type Props = {
   theme: Theme;
   language: Language;
   onToggleTheme: () => void;
-  onToggleLanguage: () => void;
+  onToggleLanguage: (newLanguage: Language) => void;
 };
 
 export const Settings: React.FC<Props> = ({
@@ -18,8 +19,23 @@ export const Settings: React.FC<Props> = ({
   onToggleTheme,
   onToggleLanguage,
 }) => {
-  const t = getTranslation(language);
+  const [isLanguageSelectorVisible, setIsLanguageSelectorVisible] = useState(false);
   const iconColor = getIconColor(theme);
+
+  const getLanguageName = (code: Language): string => {
+    switch (code) {
+      case 'ru': return 'Русский';
+      case 'en': return 'English';
+      case 'uk': return 'Українська';
+      case 'de': return 'Deutsch';
+      case 'fr': return 'Français';
+      case 'zh': return '中文';
+      case 'pl': return 'Polski';
+      case 'it': return 'Italiano';
+      case 'es': return 'Español';
+      default: return code;
+    }
+  };
 
   return (
     <View style={[styles.container, theme === 'dark' && styles.darkContainer]}>
@@ -62,7 +78,7 @@ export const Settings: React.FC<Props> = ({
         </Text>
         <TouchableOpacity 
           style={[styles.option, theme === 'dark' && styles.darkOption]} 
-          onPress={onToggleLanguage}
+          onPress={() => setIsLanguageSelectorVisible(true)}
         >
           <View style={styles.optionLeft}>
             <Ionicons 
@@ -72,7 +88,7 @@ export const Settings: React.FC<Props> = ({
               style={styles.optionIcon}
             />
             <Text style={[styles.optionText, theme === 'dark' && styles.darkText]}>
-              {language === 'ru' ? 'English' : 'Русский'}
+              {getLanguageName(language)}
             </Text>
           </View>
           <Ionicons 
@@ -82,6 +98,14 @@ export const Settings: React.FC<Props> = ({
           />
         </TouchableOpacity>
       </View>
+
+      <LanguageSelector
+        theme={theme}
+        currentLanguage={language}
+        isVisible={isLanguageSelectorVisible}
+        onClose={() => setIsLanguageSelectorVisible(false)}
+        onSelect={onToggleLanguage}
+      />
     </View>
   );
 };
