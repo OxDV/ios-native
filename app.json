@@ -30,6 +30,7 @@
       "eas": {
         "projectId": "your-project-id"
       }
-    }
+    },
+    "newArchEnabled": true
   }
 }
