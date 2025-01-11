@@ -59,7 +59,7 @@ export const BottomTabBar: React.FC<Props> = ({
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    height: 60,
+    height: 70,
     backgroundColor: '#fff',
     borderTopWidth: 1,
     borderTopColor: '#eee',
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    paddingTop: 5,
+    paddingTop: 10,
   },
   darkContainer: {
     backgroundColor: '#1a1a1a',
