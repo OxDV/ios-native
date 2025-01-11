@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
-import { View, Text, TouchableOpacity, Modal, StyleSheet, ScrollView, Animated } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Animated } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Theme, Language } from '../types';
 import { getIconColor } from '../utils/theme';
+import { getTranslation } from '../translations';
 
 type Props = {
   theme: Theme;
@@ -33,6 +34,7 @@ export const LanguageSelector: React.FC<Props> = ({
 }) => {
   const iconColor = getIconColor(theme);
   const slideAnim = new Animated.Value(0);
+  const t = getTranslation(currentLanguage);
 
   useEffect(() => {
     if (isVisible) {
@@ -81,7 +83,7 @@ export const LanguageSelector: React.FC<Props> = ({
               styles.title,
               theme === 'dark' && styles.darkText
             ]}>
-              {currentLanguage === 'ru' ? 'Выберите язык' : 'Select Language'}
+              {t.alerts.selectLanguage || (currentLanguage === 'ru' ? 'Выберите язык' : 'Select Language')}
             </Text>
             <TouchableOpacity onPress={handleClose} style={styles.closeButton}>
               <Ionicons name="close" size={24} color={iconColor} />
@@ -109,7 +111,7 @@ export const LanguageSelector: React.FC<Props> = ({
                   theme === 'dark' && styles.darkText,
                   currentLanguage === code && styles.selectedText,
                 ]}>
-                  {name}
+                  {t.languages[code]}
                 </Text>
                 {currentLanguage === code && (
                   <Ionicons

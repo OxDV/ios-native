@@ -18,6 +18,12 @@ export type Translations = {
     clearConfirm: string;
     clearTitle: string;
     recipe: string;
+    settings: string;
+    appearance: string;
+    language: string;
+    selectLanguage: string;
+    darkTheme: string;
+    lightTheme: string;
   };
   messages: {
     loadingIngredients: string;

@@ -21,31 +21,17 @@ export const Settings: React.FC<Props> = ({
 }) => {
   const [isLanguageSelectorVisible, setIsLanguageSelectorVisible] = useState(false);
   const iconColor = getIconColor(theme);
-
-  const getLanguageName = (code: Language): string => {
-    switch (code) {
-      case 'ru': return 'Русский';
-      case 'en': return 'English';
-      case 'uk': return 'Українська';
-      case 'de': return 'Deutsch';
-      case 'fr': return 'Français';
-      case 'zh': return '中文';
-      case 'pl': return 'Polski';
-      case 'it': return 'Italiano';
-      case 'es': return 'Español';
-      default: return code;
-    }
-  };
+  const t = getTranslation(language);
 
   return (
     <View style={[styles.container, theme === 'dark' && styles.darkContainer]}>
       <Text style={[styles.title, theme === 'dark' && styles.darkText]}>
-        {language === 'ru' ? 'Настройки' : 'Settings'}
+        {t.alerts.settings || (language === 'ru' ? 'Настройки' : 'Settings')}
       </Text>
 
       <View style={styles.section}>
         <Text style={[styles.sectionTitle, theme === 'dark' && styles.darkText]}>
-          {language === 'ru' ? 'Внешний вид' : 'Appearance'}
+          {t.alerts.appearance || (language === 'ru' ? 'Внешний вид' : 'Appearance')}
         </Text>
         <TouchableOpacity 
           style={[styles.option, theme === 'dark' && styles.darkOption]} 
@@ -59,9 +45,9 @@ export const Settings: React.FC<Props> = ({
               style={styles.optionIcon}
             />
             <Text style={[styles.optionText, theme === 'dark' && styles.darkText]}>
-              {language === 'ru' ? 
-                (theme === 'light' ? 'Темная тема' : 'Светлая тема') : 
-                (theme === 'light' ? 'Dark Theme' : 'Light Theme')}
+              {theme === 'light' ? 
+                (t.alerts.darkTheme || 'Dark Theme') : 
+                (t.alerts.lightTheme || 'Light Theme')}
             </Text>
           </View>
           <Ionicons 
@@ -74,7 +60,7 @@ export const Settings: React.FC<Props> = ({
 
       <View style={styles.section}>
         <Text style={[styles.sectionTitle, theme === 'dark' && styles.darkText]}>
-          {language === 'ru' ? 'Язык' : 'Language'}
+          {t.alerts.language || (language === 'ru' ? 'Язык' : 'Language')}
         </Text>
         <TouchableOpacity 
           style={[styles.option, theme === 'dark' && styles.darkOption]} 
@@ -88,7 +74,7 @@ export const Settings: React.FC<Props> = ({
               style={styles.optionIcon}
             />
             <Text style={[styles.optionText, theme === 'dark' && styles.darkText]}>
-              {getLanguageName(language)}
+              {t.languages[language]}
             </Text>
           </View>
           <Ionicons 
