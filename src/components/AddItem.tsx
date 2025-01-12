@@ -39,6 +39,7 @@ export const AddItem: React.FC<Props> = ({
         style={styles.addButton} 
         onPress={onAddItem}
         disabled={isLoading}
+        testID="add-button"
       >
         <Ionicons 
           name="add-circle" 

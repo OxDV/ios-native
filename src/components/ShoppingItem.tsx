@@ -43,6 +43,7 @@ export const ShoppingItem: React.FC<Props> = ({
             autoFocus
             placeholder={t.errors.emptyItem}
             placeholderTextColor={theme === 'dark' ? '#888' : '#999'}
+            testID={`edit-item-${name}`}
           />
           <TouchableOpacity onPress={() => onSaveEdit(id)}>
             <Ionicons name="checkmark-circle" size={24} color={theme === 'dark' ? '#4CAF50' : 'green'} />
@@ -53,7 +54,10 @@ export const ShoppingItem: React.FC<Props> = ({
   }
 
   return (
-    <View style={[styles.itemContainer, theme === 'dark' && styles.darkItemContainer]}>
+    <View 
+      style={[styles.itemContainer, theme === 'dark' && styles.darkItemContainer]}
+      testID={`item-${name}`}
+    >
       <View style={styles.itemLeftSection}>
         <TouchableOpacity style={styles.checkbox} onPress={() => onToggle(id)}>
           <Ionicons
