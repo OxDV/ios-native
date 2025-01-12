@@ -6,15 +6,30 @@ import { Alert } from 'react-native';
 import { ShoppingList } from '../ShoppingList';
 import { getRecipeWithIngredients } from '../../services/openai';
 import { loadItems, loadRecipe, saveItems, saveRecipe } from '../../utils/storage';
+import { jest, expect, describe, it, beforeEach } from '@jest/globals';
+
+type Item = {
+  id: string;
+  name: string;
+  purchased: boolean;
+};
 
 // Мокаем внешние зависимости
 jest.mock('../../services/openai');
-jest.mock('../../utils/storage', () => ({
-  saveItems: jest.fn(),
-  loadItems: jest.fn().mockResolvedValue([]),
-  saveRecipe: jest.fn(),
-  loadRecipe: jest.fn().mockResolvedValue(''),
-}));
+jest.mock('../../utils/storage');
+
+// Явно типизируем моки
+(saveItems as jest.Mock).mockImplementation(() => Promise.resolve());
+(loadItems as jest.Mock).mockImplementation(() => Promise.resolve([]));
+(saveRecipe as jest.Mock).mockImplementation(() => Promise.resolve());
+(loadRecipe as jest.Mock).mockImplementation(() => Promise.resolve(''));
+
+const mockedGetRecipeWithIngredients = getRecipeWithIngredients as jest.MockedFunction<typeof getRecipeWithIngredients>;
+const mockedLoadItems = loadItems as jest.MockedFunction<typeof loadItems>;
+const mockedLoadRecipe = loadRecipe as jest.MockedFunction<typeof loadRecipe>;
+const mockedSaveItems = saveItems as jest.MockedFunction<typeof saveItems>;
+const mockedSaveRecipe = saveRecipe as jest.MockedFunction<typeof saveRecipe>;
+
 jest.spyOn(Alert, 'alert');
 
 describe('ShoppingList Integration', () => {
@@ -48,9 +63,9 @@ describe('ShoppingList Integration', () => {
 
   beforeEach(async () => {
     jest.clearAllMocks();
-    (getRecipeWithIngredients as jest.Mock).mockResolvedValue(mockRecipeResponse);
-    (loadItems as jest.Mock).mockResolvedValue([]);
-    (loadRecipe as jest.Mock).mockResolvedValue('');
+    mockedGetRecipeWithIngredients.mockResolvedValue(mockRecipeResponse);
+    mockedLoadItems.mockResolvedValue([]);
+    mockedLoadRecipe.mockResolvedValue('');
   });
 
   it('calls OpenAI service and adds ingredients when adding a recipe', async () => {
@@ -76,7 +91,7 @@ describe('ShoppingList Integration', () => {
     });
 
     // Проверяем, что OpenAI сервис был вызван с правильным параметром
-    expect(getRecipeWithIngredients).toHaveBeenCalledWith('Борщ');
+    expect(mockedGetRecipeWithIngredients).toHaveBeenCalledWith('Борщ');
 
     // Проверяем, что ингредиенты были добавлены в список
     const ingredients = mockRecipeResponse
@@ -90,8 +105,8 @@ describe('ShoppingList Integration', () => {
     }
 
     // Проверяем, что данные были сохранены
-    expect(saveItems).toHaveBeenCalled();
-    expect(saveRecipe).toHaveBeenCalled();
+    expect(mockedSaveItems).toHaveBeenCalled();
+    expect(mockedSaveRecipe).toHaveBeenCalled();
   });
 
   it('allows to mark ingredients as purchased', async () => {
@@ -127,7 +142,7 @@ describe('ShoppingList Integration', () => {
     });
 
     // Проверяем, что состояние изменилось и данные сохранились
-    expect(saveItems).toHaveBeenCalled();
+    expect(mockedSaveItems).toHaveBeenCalled();
   });
 
   it('allows to edit ingredient name', async () => {
@@ -178,7 +193,7 @@ describe('ShoppingList Integration', () => {
     });
 
     // Проверяем, что изменения сохранились
-    expect(saveItems).toHaveBeenCalled();
+    expect(mockedSaveItems).toHaveBeenCalled();
     await findByTestId(`item-${newName}`);
   });
 
@@ -217,12 +232,12 @@ describe('ShoppingList Integration', () => {
 
     // Проверяем, что ингредиент был удален
     expect(queryByTestId(`item-${firstIngredient}`)).toBeNull();
-    expect(saveItems).toHaveBeenCalled();
+    expect(mockedSaveItems).toHaveBeenCalled();
   });
 
   it('shows loading state while waiting for OpenAI response', async () => {
     // Делаем задержку в ответе OpenAI
-    (getRecipeWithIngredients as jest.Mock).mockImplementation(
+    mockedGetRecipeWithIngredients.mockImplementation(
       () => new Promise(resolve => setTimeout(() => resolve(mockRecipeResponse), 100))
     );
 
@@ -261,7 +276,7 @@ describe('ShoppingList Integration', () => {
 
   it('handles OpenAI service errors gracefully', async () => {
     // Мокаем ошибку от OpenAI
-    (getRecipeWithIngredients as jest.Mock).mockRejectedValue(new Error('API Error'));
+    mockedGetRecipeWithIngredients.mockRejectedValue(new Error('API Error'));
 
     const { getByTestId, getByPlaceholderText } = render(
       <ShoppingList theme="light" language="ru" />
