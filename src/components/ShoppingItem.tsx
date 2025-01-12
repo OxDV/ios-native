@@ -45,7 +45,10 @@ export const ShoppingItem: React.FC<Props> = ({
             placeholderTextColor={theme === 'dark' ? '#888' : '#999'}
             testID={`edit-item-${name}`}
           />
-          <TouchableOpacity onPress={() => onSaveEdit(id)}>
+          <TouchableOpacity 
+            onPress={() => onSaveEdit(id)}
+            testID={`save-button-${name}`}
+          >
             <Ionicons name="checkmark-circle" size={24} color={theme === 'dark' ? '#4CAF50' : 'green'} />
           </TouchableOpacity>
         </View>
@@ -59,7 +62,11 @@ export const ShoppingItem: React.FC<Props> = ({
       testID={`item-${name}`}
     >
       <View style={styles.itemLeftSection}>
-        <TouchableOpacity style={styles.checkbox} onPress={() => onToggle(id)}>
+        <TouchableOpacity 
+          style={styles.checkbox} 
+          onPress={() => onToggle(id)}
+          testID={`checkbox-${name}`}
+        >
           <Ionicons
             name={purchased ? "checkbox" : "square-outline"}
             size={24}
@@ -76,10 +83,16 @@ export const ShoppingItem: React.FC<Props> = ({
         </Text>
       </View>
       <View style={styles.itemButtons}>
-        <TouchableOpacity onPress={() => onEdit(id, name)}>
+        <TouchableOpacity 
+          onPress={() => onEdit(id, name)}
+          testID={`edit-button-${name}`}
+        >
           <Ionicons name="pencil" size={24} color={theme === 'dark' ? '#4488ff' : 'blue'} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => onDelete(id)}>
+        <TouchableOpacity 
+          onPress={() => onDelete(id)}
+          testID={`delete-button-${name}`}
+        >
           <Ionicons name="trash" size={24} color={theme === 'dark' ? '#ff4444' : 'red'} />
         </TouchableOpacity>
       </View>
