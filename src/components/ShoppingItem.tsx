@@ -61,18 +61,18 @@ export const ShoppingItem: React.FC<Props> = ({
       style={[styles.itemContainer, theme === 'dark' && styles.darkItemContainer]}
       testID={`item-${name}`}
     >
-      <View style={styles.itemLeftSection}>
-        <TouchableOpacity 
-          style={styles.checkbox} 
-          onPress={() => onToggle(id)}
-          testID={`checkbox-${name}`}
-        >
+      <TouchableOpacity 
+        style={styles.itemLeftSection}
+        onPress={() => onToggle(id)}
+        testID={`checkbox-${name}`}
+      >
+        <View style={styles.checkbox}>
           <Ionicons
             name={purchased ? "checkbox" : "square-outline"}
             size={24}
             color={theme === 'dark' ? '#4488ff' : 'blue'}
           />
-        </TouchableOpacity>
+        </View>
         <Text style={[
           styles.itemText,
           theme === 'dark' && styles.darkText,
@@ -81,7 +81,7 @@ export const ShoppingItem: React.FC<Props> = ({
         ]}>
           {name}
         </Text>
-      </View>
+      </TouchableOpacity>
       <View style={styles.itemButtons}>
         <TouchableOpacity 
           onPress={() => onEdit(id, name)}
