@@ -250,13 +250,29 @@ export const styles = StyleSheet.create({
   darkRecipeCard: {
     backgroundColor: '#2a2a2a',
   },
-  recipeTitle: {
-    fontSize: 16,
-    color: '#333',
+  recipesContainer: {
     flex: 1,
+    paddingTop: 10,
+  },
+  recipeContent: {
+    flex: 1,
+    marginRight: 10,
+  },
+  recipeTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#333',
+    marginBottom: 4,
   },
   darkRecipeTitle: {
     color: '#fff',
+  },
+  recipeSubtitle: {
+    fontSize: 14,
+    color: '#666',
+  },
+  darkRecipeSubtitle: {
+    color: '#aaa',
   },
   deleteRecipeButton: {
     padding: 5,

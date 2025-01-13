@@ -47,4 +47,11 @@ export type Translations = {
     it: string;
     es: string;
   };
+};
+
+export type Recipe = {
+  name: string;
+  ingredients: string[];
+  instructions: string;
+  language: Language;
 }; 

@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Alert, AlertButton } from 'react-native';
-import { Item, Language, Theme } from '../types';
+import { Alert } from 'react-native';
+import { Item, Language, Theme, Recipe } from '../types';
 import { getTranslation } from '../translations';
 import { getRecipeWithIngredients } from '../services/openai';
 import { createShoppingItem } from '../utils/shopping';
-import { saveItems, loadItems, saveRecipe, loadRecipe } from '../utils/storage';
+import { saveItems, loadItems, saveRecipes, loadRecipes } from '../utils/storage';
 
 export const useShoppingList = (language: Language, theme: Theme) => {
   const [items, setItems] = useState<Item[]>([]);
@@ -12,32 +12,26 @@ export const useShoppingList = (language: Language, theme: Theme) => {
   const [editingItem, setEditingItem] = useState('');
   const [editingId, setEditingId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [lastRecipe, setLastRecipe] = useState<string>('');
-  const [dishName, setDishName] = useState<string>('');
+  const [recipes, setRecipes] = useState<Recipe[]>([]);
+  const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
 
   // Загрузка сохраненных данных при инициализации
   useEffect(() => {
     const loadSavedData = async () => {
-      const [savedItems, savedRecipe] = await Promise.all([
+      const [savedItems, savedRecipes] = await Promise.all([
         loadItems(),
-        loadRecipe()
+        loadRecipes()
       ]);
       setItems(savedItems);
-      if (savedRecipe) {
-        const [name, recipe] = savedRecipe.split('|||');
-        setDishName(name || '');
-        setLastRecipe(recipe || '');
-      }
+      setRecipes(savedRecipes);
     };
     loadSavedData();
   }, []);
 
-  // Сохранение рецепта при изменении
+  // Сохранение рецептов при изменении
   useEffect(() => {
-    if (lastRecipe || dishName) {
-      saveRecipe(`${dishName}|||${lastRecipe}`);
-    }
-  }, [lastRecipe, dishName]);
+    saveRecipes(recipes);
+  }, [recipes]);
 
   const addItem = async () => {
     if (item.trim() === '') {
@@ -50,52 +44,11 @@ export const useShoppingList = (language: Language, theme: Theme) => {
       setIsLoading(true);
       const t = getTranslation(language);
       
-      const response = await getRecipeWithIngredients(item, language);
-      console.log('OpenAI response:', response);
+      const newRecipe = await getRecipeWithIngredients(item, language);
+      setRecipes(prevRecipes => [...prevRecipes, newRecipe]);
       
-      // Извлекаем название блюда
-      const nameMatch = response.match(/(Name:|Название:)\s*([^\n]+)/i);
-      console.log('Name match:', nameMatch);
-      if (nameMatch && nameMatch[2]) {
-        setDishName(nameMatch[2].trim());
-        console.log('Extracted dish name:', nameMatch[2].trim());
-      }
-      
-      // Извлекаем секцию с ингредиентами
-      const sections = response.split(/Ingredients:|Ингредиенты:/i);
-      console.log('Split by ingredients:', sections);
-      
-      if (sections.length > 1) {
-        const ingredientsPart = sections[1].split(/Recipe:|Рецепт:/i)[0];
-        console.log('Ingredients part:', ingredientsPart);
-        
-        const ingredients = ingredientsPart
-          .split('\n')
-          .filter(line => line.trim().startsWith('-'))
-          .map(line => line.trim().substring(2).trim())
-          .filter(Boolean);
-        
-        console.log('Extracted ingredients:', ingredients);
-        
-        if (ingredients.length > 0) {
-          const newItems = ingredients.map(ingredient => createShoppingItem(ingredient));
-          setItems(prevItems => [...prevItems, ...newItems]);
-        } else {
-          console.log('No ingredients found, adding original item:', item);
-          setItems(prevItems => [...prevItems, createShoppingItem(item)]);
-        }
-      } else {
-        console.log('No ingredients section found, adding original item:', item);
-        setItems(prevItems => [...prevItems, createShoppingItem(item)]);
-      }
-      
-      const recipeWord = t.alerts.recipe;
-      const recipeSection = response.split(new RegExp(`${recipeWord}:|Recipe:|Rezept:|Recette:|食谱:|Przepis:|Ricetta:|Receta:`))[1];
-      if (recipeSection) {
-        setLastRecipe(recipeSection.trim());
-        console.log('Extracted recipe:', recipeSection.trim());
-      }
-      
+      const newItems = newRecipe.ingredients.map(ingredient => createShoppingItem(ingredient));
+      setItems(prevItems => [...prevItems, ...newItems]);
       setItem('');
     } catch (error) {
       console.error('Error processing OpenAI response:', error);
@@ -107,7 +60,7 @@ export const useShoppingList = (language: Language, theme: Theme) => {
   };
 
   const deleteItem = (id: string) => {
-    setItems(items.filter(item => item.id !== id));
+    setItems(prevItems => prevItems.filter(item => item.id !== id));
   };
 
   const startEditing = (id: string, name: string) => {
@@ -117,58 +70,50 @@ export const useShoppingList = (language: Language, theme: Theme) => {
 
   const saveEdit = (id: string) => {
     if (editingItem.trim() === '') return;
-    
-    setItems(items.map(currentItem => 
-      currentItem.id === id ? { ...currentItem, name: editingItem.trim() } : currentItem
-    ));
+
+    setItems(prevItems =>
+      prevItems.map(item =>
+        item.id === id ? { ...item, name: editingItem.trim() } : item
+      )
+    );
     setEditingId(null);
     setEditingItem('');
   };
 
   const togglePurchased = (id: string) => {
-    setItems(items.map(item => 
-      item.id === id ? { ...item, purchased: !item.purchased } : item
-    ));
+    setItems(prevItems =>
+      prevItems.map(item =>
+        item.id === id ? { ...item, purchased: !item.purchased } : item
+      )
+    );
   };
 
   const clearAllItems = () => {
     const t = getTranslation(language);
-
-    const buttons: AlertButton[] = [
-      {
-        text: t.buttons.cancel,
-        style: 'cancel',
-        isPreferred: false,
-      },
-      {
-        text: t.buttons.confirm,
-        style: 'destructive',
-        isPreferred: true,
-        onPress: () => {
-          setItems([]);
-          setLastRecipe('');
-        },
-      },
-    ];
-
     Alert.alert(
       t.alerts.clearTitle,
       t.alerts.clearConfirm,
-      buttons,
-      {
-        cancelable: true,
-        userInterfaceStyle: theme,
-      }
+      [
+        { text: t.buttons.cancel, style: 'cancel' },
+        {
+          text: t.buttons.confirm,
+          style: 'destructive',
+          onPress: () => {
+            setItems([]);
+            setRecipes([]);
+            setSelectedRecipe(null);
+          },
+        },
+      ],
+      { cancelable: true }
     );
   };
 
-  const showRecipe = () => {
-    if (items.length === 0 || !lastRecipe) return;
-    
-    const t = getTranslation(language);
+  const showRecipe = (recipe: Recipe) => {
+    setSelectedRecipe(recipe);
     Alert.alert(
-      t.alerts.recipe,
-      lastRecipe,
+      recipe.name,
+      recipe.instructions,
       [{ text: 'OK', style: 'default' }],
       {
         cancelable: true,
@@ -177,9 +122,11 @@ export const useShoppingList = (language: Language, theme: Theme) => {
     );
   };
 
-  const deleteRecipe = () => {
-    setLastRecipe('');
-    setDishName('');
+  const deleteRecipe = (recipeToDelete: Recipe) => {
+    setRecipes(prevRecipes => prevRecipes.filter(r => r.name !== recipeToDelete.name));
+    if (selectedRecipe?.name === recipeToDelete.name) {
+      setSelectedRecipe(null);
+    }
   };
 
   return {
@@ -188,9 +135,11 @@ export const useShoppingList = (language: Language, theme: Theme) => {
     editingItem,
     editingId,
     isLoading,
-    recipe: dishName ? { name: dishName } : null,
+    recipes,
+    selectedRecipe,
     setItem,
     setEditingItem,
+    setSelectedRecipe,
     addItem,
     deleteItem,
     startEditing,

@@ -1,9 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Item } from '../types';
+import { Item, Recipe } from '../types';
 
 const STORAGE_KEYS = {
   ITEMS: 'shopping_list_items',
-  RECIPE: 'shopping_list_recipe',
+  RECIPES: 'shopping_list_recipes',
 } as const;
 
 export const saveItems = async (items: Item[]): Promise<void> => {
@@ -24,20 +24,20 @@ export const loadItems = async (): Promise<Item[]> => {
   }
 };
 
-export const saveRecipe = async (recipe: string): Promise<void> => {
+export const saveRecipes = async (recipes: Recipe[]): Promise<void> => {
   try {
-    await AsyncStorage.setItem(STORAGE_KEYS.RECIPE, recipe);
+    await AsyncStorage.setItem(STORAGE_KEYS.RECIPES, JSON.stringify(recipes));
   } catch (error) {
-    console.error('Error saving recipe:', error);
+    console.error('Error saving recipes:', error);
   }
 };
 
-export const loadRecipe = async (): Promise<string> => {
+export const loadRecipes = async (): Promise<Recipe[]> => {
   try {
-    const recipe = await AsyncStorage.getItem(STORAGE_KEYS.RECIPE);
-    return recipe || '';
+    const recipes = await AsyncStorage.getItem(STORAGE_KEYS.RECIPES);
+    return recipes ? JSON.parse(recipes) : [];
   } catch (error) {
-    console.error('Error loading recipe:', error);
-    return '';
+    console.error('Error loading recipes:', error);
+    return [];
   }
 }; 
