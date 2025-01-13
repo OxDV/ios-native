@@ -307,4 +307,24 @@ export const styles = StyleSheet.create({
     alignSelf: 'center',
     marginBottom: 10,
   },
+  recipeButtons: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+  },
+  emptyText: {
+    fontSize: 16,
+    color: '#666',
+    textAlign: 'center',
+  },
+  favoritesContent: {
+    flex: 1,
+    paddingTop: 10,
+  },
 }); 

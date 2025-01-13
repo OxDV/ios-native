@@ -3,6 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import { Header } from './src/components/Header';
 import { ShoppingList } from './src/components/ShoppingList';
 import { Settings } from './src/components/Settings';
+import { Favorites } from './src/components/Favorites';
 import { BottomTabBar } from './src/components/BottomTabBar';
 import { useTheme } from './src/hooks/useTheme';
 import { useLanguage } from './src/hooks/useLanguage';
@@ -27,8 +28,7 @@ export default function App() {
           />
         );
       case 'favorites':
-        // TODO: Добавить компонент избранного
-        return <View style={styles.emptyContainer} />;
+        return <Favorites theme={theme} language={language} />;
       default:
         return null;
     }

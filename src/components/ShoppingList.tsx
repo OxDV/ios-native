@@ -34,7 +34,8 @@ export const ShoppingList: React.FC<Props> = ({ theme, language }) => {
     clearAllItems,
     showRecipe,
     deleteRecipe,
-    setSelectedRecipe
+    setSelectedRecipe,
+    toggleFavorite
   } = useShoppingList(language, theme);
 
   const t = getTranslation(language);
@@ -85,16 +86,28 @@ export const ShoppingList: React.FC<Props> = ({ theme, language }) => {
                 {t.alerts.recipe}
               </Text>
             </View>
-            <TouchableOpacity
-              onPress={() => deleteRecipe(recipe)}
-              style={styles.deleteRecipeButton}
-            >
-              <Ionicons
-                name="trash-outline"
-                size={24}
-                color={theme === 'dark' ? '#fff' : '#000'}
-              />
-            </TouchableOpacity>
+            <View style={styles.recipeButtons}>
+              <TouchableOpacity
+                onPress={() => toggleFavorite(recipe)}
+                style={styles.deleteRecipeButton}
+              >
+                <Ionicons
+                  name={recipe.isFavorite ? "star" : "star-outline"}
+                  size={24}
+                  color={recipe.isFavorite ? '#FFD700' : theme === 'dark' ? '#fff' : '#000'}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => deleteRecipe(recipe)}
+                style={styles.deleteRecipeButton}
+              >
+                <Ionicons
+                  name="trash-outline"
+                  size={24}
+                  color={theme === 'dark' ? '#fff' : '#000'}
+                />
+              </TouchableOpacity>
+            </View>
           </TouchableOpacity>
         ))}
       </ScrollView>

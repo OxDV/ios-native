@@ -8,9 +8,16 @@ export type Theme = 'light' | 'dark';
 export type Language = 'ru' | 'en' | 'uk' | 'de' | 'fr' | 'zh' | 'pl' | 'it' | 'es';
 
 export type Translations = {
-  errors: {
-    emptyItem: string;
-    aiError: string;
+  buttons: {
+    clearAll: string;
+    cancel: string;
+    confirm: string;
+    recipe: string;
+  };
+  titles: {
+    favorites: string;
+    shoppingList: string;
+    settings: string;
   };
   alerts: {
     error: string;
@@ -25,16 +32,11 @@ export type Translations = {
     darkTheme: string;
     lightTheme: string;
     appName: string;
+    noFavorites: string;
   };
-  messages: {
-    loadingIngredients: string;
-    gettingRecipe: string;
-  };
-  buttons: {
-    clearAll: string;
-    cancel: string;
-    confirm: string;
-    recipe: string;
+  errors: {
+    emptyItem: string;
+    aiError: string;
   };
   languages: {
     ru: string;
@@ -53,5 +55,5 @@ export type Recipe = {
   name: string;
   ingredients: string[];
   instructions: string;
-  language: Language;
+  isFavorite: boolean;
 }; 

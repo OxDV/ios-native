@@ -30,7 +30,10 @@ export const useShoppingList = (language: Language, theme: Theme) => {
 
   // Сохранение рецептов при изменении
   useEffect(() => {
-    saveRecipes(recipes);
+    if (recipes.length > 0) {
+      console.log('Saving recipes:', recipes);
+      saveRecipes(recipes);
+    }
   }, [recipes]);
 
   const addItem = async () => {
@@ -45,7 +48,7 @@ export const useShoppingList = (language: Language, theme: Theme) => {
       const t = getTranslation(language);
       
       const newRecipe = await getRecipeWithIngredients(item, language);
-      setRecipes(prevRecipes => [...prevRecipes, newRecipe]);
+      setRecipes(prevRecipes => [...prevRecipes, { ...newRecipe, isFavorite: false }]);
       
       const newItems = newRecipe.ingredients.map(ingredient => createShoppingItem(ingredient));
       setItems(prevItems => [...prevItems, ...newItems]);
@@ -129,6 +132,27 @@ export const useShoppingList = (language: Language, theme: Theme) => {
     }
   };
 
+  const toggleFavorite = (recipe: Recipe) => {
+    console.log('Toggling favorite for recipe:', recipe.name);
+    console.log('Current favorite state:', recipe.isFavorite);
+    
+    setRecipes(prevRecipes => {
+      const newRecipes = prevRecipes.map(r =>
+        r.name === recipe.name ? { ...r, isFavorite: !r.isFavorite } : r
+      );
+      console.log('Updated recipes:', newRecipes);
+      saveRecipes(newRecipes);
+      return newRecipes;
+    });
+  };
+
+  const getFavoriteRecipes = () => {
+    console.log('Getting favorite recipes from:', recipes);
+    const favorites = recipes.filter(recipe => recipe.isFavorite);
+    console.log('Filtered favorite recipes:', favorites);
+    return favorites;
+  };
+
   return {
     items,
     item,
@@ -147,6 +171,8 @@ export const useShoppingList = (language: Language, theme: Theme) => {
     togglePurchased,
     clearAllItems,
     showRecipe,
-    deleteRecipe
+    deleteRecipe,
+    toggleFavorite,
+    getFavoriteRecipes
   };
 }; 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Theme, Language } from '../types';
 import { getIconColor } from '../utils/theme';
@@ -24,14 +24,14 @@ export const Settings: React.FC<Props> = ({
   const t = getTranslation(language);
 
   return (
-    <View style={[styles.container, theme === 'dark' && styles.darkContainer]}>
+    <SafeAreaView style={[styles.container, theme === 'dark' && styles.darkContainer]}>
       <Text style={[styles.title, theme === 'dark' && styles.darkText]}>
-        {t.alerts.settings || (language === 'ru' ? 'Настройки' : 'Settings')}
+        {t.alerts.settings}
       </Text>
 
       <View style={styles.section}>
         <Text style={[styles.sectionTitle, theme === 'dark' && styles.darkText]}>
-          {t.alerts.appearance || (language === 'ru' ? 'Внешний вид' : 'Appearance')}
+          {t.alerts.appearance}
         </Text>
         <TouchableOpacity 
           style={[styles.option, theme === 'dark' && styles.darkOption]} 
@@ -45,9 +45,7 @@ export const Settings: React.FC<Props> = ({
               style={styles.optionIcon}
             />
             <Text style={[styles.optionText, theme === 'dark' && styles.darkText]}>
-              {theme === 'light' ? 
-                (t.alerts.darkTheme || 'Dark Theme') : 
-                (t.alerts.lightTheme || 'Light Theme')}
+              {theme === 'light' ? t.alerts.darkTheme : t.alerts.lightTheme}
             </Text>
           </View>
           <Ionicons 
@@ -60,7 +58,7 @@ export const Settings: React.FC<Props> = ({
 
       <View style={styles.section}>
         <Text style={[styles.sectionTitle, theme === 'dark' && styles.darkText]}>
-          {t.alerts.language || (language === 'ru' ? 'Язык' : 'Language')}
+          {t.alerts.language}
         </Text>
         <TouchableOpacity 
           style={[styles.option, theme === 'dark' && styles.darkOption]} 
@@ -92,7 +90,7 @@ export const Settings: React.FC<Props> = ({
         onClose={() => setIsLanguageSelectorVisible(false)}
         onSelect={onToggleLanguage}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -100,8 +98,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    paddingHorizontal: 20,
-    paddingTop: 60,
   },
   darkContainer: {
     backgroundColor: '#1a1a1a',
@@ -111,12 +107,15 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 30,
     color: '#333',
+    paddingHorizontal: 20,
+    marginTop: 20,
   },
   darkText: {
     color: '#fff',
   },
   section: {
     marginBottom: 30,
+    paddingHorizontal: 20,
   },
   sectionTitle: {
     fontSize: 18,

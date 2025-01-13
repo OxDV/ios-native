@@ -1,15 +1,22 @@
 import { Language, Translations } from '../types';
 
-const translations: Record<Language, Translations> = {
+export const translations = {
   ru: {
-    errors: {
-      emptyItem: 'Пожалуйста, введите название продукта',
-      aiError: 'Ошибка при получении ингредиентов. Попробуйте еще раз',
+    buttons: {
+      clearAll: 'Очистить список',
+      cancel: 'Отмена',
+      confirm: 'Подтвердить',
+      recipe: 'Рецепт'
+    },
+    titles: {
+      favorites: 'Избранное',
+      shoppingList: 'Список покупок',
+      settings: 'Настройки'
     },
     alerts: {
       error: 'Ошибка',
-      loading: 'Загрузка',
-      clearConfirm: 'Вы уверены, что хотите очистить весь список?',
+      loading: 'Загрузка...',
+      clearConfirm: 'Вы уверены, что хотите очистить список?',
       clearTitle: 'Очистить список',
       recipe: 'Рецепт',
       settings: 'Настройки',
@@ -19,16 +26,11 @@ const translations: Record<Language, Translations> = {
       darkTheme: 'Темная тема',
       lightTheme: 'Светлая тема',
       appName: 'Список покупок',
+      noFavorites: 'У вас пока нет избранных рецептов'
     },
-    messages: {
-      loadingIngredients: 'Получаем список ингредиентов...',
-      gettingRecipe: 'Получаем рецепт...',
-    },
-    buttons: {
-      clearAll: 'Очистить всё',
-      cancel: 'Отмена',
-      confirm: 'Подтвердить',
-      recipe: 'Рецепт',
+    errors: {
+      emptyItem: 'Пожалуйста, введите название продукта',
+      aiError: 'Ошибка при получении ингредиентов. Попробуйте еще раз'
     },
     languages: {
       ru: 'Русский',
@@ -39,37 +41,39 @@ const translations: Record<Language, Translations> = {
       zh: '中文',
       pl: 'Polski',
       it: 'Italiano',
-      es: 'Español',
-    },
+      es: 'Español'
+    }
   },
   en: {
-    errors: {
-      emptyItem: 'Please enter a product name',
-      aiError: 'Error getting ingredients. Please try again',
+    buttons: {
+      clearAll: 'Clear list',
+      cancel: 'Cancel',
+      confirm: 'Confirm',
+      recipe: 'Recipe'
+    },
+    titles: {
+      favorites: 'Favorites',
+      shoppingList: 'Shopping List',
+      settings: 'Settings'
     },
     alerts: {
       error: 'Error',
-      loading: 'Loading',
-      clearConfirm: 'Are you sure you want to clear the entire list?',
-      clearTitle: 'Clear List',
+      loading: 'Loading...',
+      clearConfirm: 'Are you sure you want to clear the list?',
+      clearTitle: 'Clear list',
       recipe: 'Recipe',
       settings: 'Settings',
       appearance: 'Appearance',
       language: 'Language',
-      selectLanguage: 'Select Language',
-      darkTheme: 'Dark Theme',
-      lightTheme: 'Light Theme',
+      selectLanguage: 'Select language',
+      darkTheme: 'Dark theme',
+      lightTheme: 'Light theme',
       appName: 'Shopping List',
+      noFavorites: 'You have no favorite recipes yet'
     },
-    messages: {
-      loadingIngredients: 'Getting ingredients list...',
-      gettingRecipe: 'Getting recipe...',
-    },
-    buttons: {
-      clearAll: 'Clear All',
-      cancel: 'Cancel',
-      confirm: 'Confirm',
-      recipe: 'Recipe',
+    errors: {
+      emptyItem: 'Please enter a product name',
+      aiError: 'Error getting ingredients. Please try again'
     },
     languages: {
       ru: 'Русский',
@@ -80,18 +84,25 @@ const translations: Record<Language, Translations> = {
       zh: '中文',
       pl: 'Polski',
       it: 'Italiano',
-      es: 'Español',
-    },
+      es: 'Español'
+    }
   },
   uk: {
-    errors: {
-      emptyItem: 'Будь ласка, введіть назву продукту',
-      aiError: 'Помилка при отриманні інгредієнтів. Спробуйте ще раз',
+    buttons: {
+      clearAll: 'Очистити список',
+      cancel: 'Скасувати',
+      confirm: 'Підтвердити',
+      recipe: 'Рецепт'
+    },
+    titles: {
+      favorites: 'Обране',
+      shoppingList: 'Список покупок',
+      settings: 'Налаштування'
     },
     alerts: {
       error: 'Помилка',
-      loading: 'Завантаження',
-      clearConfirm: 'Ви впевнені, що хочете очистити весь список?',
+      loading: 'Завантаження...',
+      clearConfirm: 'Ви впевнені, що хочете очистити список?',
       clearTitle: 'Очистити список',
       recipe: 'Рецепт',
       settings: 'Налаштування',
@@ -101,16 +112,11 @@ const translations: Record<Language, Translations> = {
       darkTheme: 'Темна тема',
       lightTheme: 'Світла тема',
       appName: 'Список покупок',
+      noFavorites: 'У вас поки немає обраних рецептів'
     },
-    messages: {
-      loadingIngredients: 'Отримуємо список інгредієнтів...',
-      gettingRecipe: 'Отримуємо рецепт...',
-    },
-    buttons: {
-      clearAll: 'Очистити все',
-      cancel: 'Скасувати',
-      confirm: 'Підтвердити',
-      recipe: 'Рецепт',
+    errors: {
+      emptyItem: 'Будь ласка, введіть назву продукту',
+      aiError: 'Помилка при отриманні інгредієнтів. Спробуйте ще раз'
     },
     languages: {
       ru: 'Русский',
@@ -121,37 +127,39 @@ const translations: Record<Language, Translations> = {
       zh: '中文',
       pl: 'Polski',
       it: 'Italiano',
-      es: 'Español',
-    },
+      es: 'Español'
+    }
   },
   de: {
-    errors: {
-      emptyItem: 'Bitte geben Sie einen Produktnamen ein',
-      aiError: 'Fehler beim Abrufen der Zutaten. Bitte versuchen Sie es erneut',
+    buttons: {
+      clearAll: 'Liste leeren',
+      cancel: 'Abbrechen',
+      confirm: 'Bestätigen',
+      recipe: 'Rezept'
+    },
+    titles: {
+      favorites: 'Favoriten',
+      shoppingList: 'Einkaufsliste',
+      settings: 'Einstellungen'
     },
     alerts: {
       error: 'Fehler',
-      loading: 'Laden',
-      clearConfirm: 'Möchten Sie die gesamte Liste wirklich löschen?',
-      clearTitle: 'Liste löschen',
+      loading: 'Laden...',
+      clearConfirm: 'Möchten Sie die Liste wirklich leeren?',
+      clearTitle: 'Liste leeren',
       recipe: 'Rezept',
       settings: 'Einstellungen',
       appearance: 'Erscheinungsbild',
       language: 'Sprache',
       selectLanguage: 'Sprache auswählen',
-      darkTheme: 'Dunkles Thema',
-      lightTheme: 'Helles Thema',
+      darkTheme: 'Dunkles Design',
+      lightTheme: 'Helles Design',
       appName: 'Einkaufsliste',
+      noFavorites: 'Sie haben noch keine Lieblingsrezepte'
     },
-    messages: {
-      loadingIngredients: 'Zutatenliste wird abgerufen...',
-      gettingRecipe: 'Rezept wird abgerufen...',
-    },
-    buttons: {
-      clearAll: 'Alles löschen',
-      cancel: 'Abbrechen',
-      confirm: 'Bestätigen',
-      recipe: 'Rezept',
+    errors: {
+      emptyItem: 'Bitte geben Sie einen Produktnamen ein',
+      aiError: 'Fehler beim Abrufen der Zutaten. Bitte versuchen Sie es erneut'
     },
     languages: {
       ru: 'Русский',
@@ -162,37 +170,39 @@ const translations: Record<Language, Translations> = {
       zh: '中文',
       pl: 'Polski',
       it: 'Italiano',
-      es: 'Español',
-    },
+      es: 'Español'
+    }
   },
   fr: {
-    errors: {
-      emptyItem: 'Veuillez entrer un nom de produit',
-      aiError: 'Erreur lors de l\'obtention des ingrédients. Veuillez réessayer',
+    buttons: {
+      clearAll: 'Vider la liste',
+      cancel: 'Annuler',
+      confirm: 'Confirmer',
+      recipe: 'Recette'
+    },
+    titles: {
+      favorites: 'Favoris',
+      shoppingList: 'Liste de courses',
+      settings: 'Paramètres'
     },
     alerts: {
       error: 'Erreur',
-      loading: 'Chargement',
-      clearConfirm: 'Êtes-vous sûr de vouloir effacer toute la liste ?',
-      clearTitle: 'Effacer la liste',
+      loading: 'Chargement...',
+      clearConfirm: 'Êtes-vous sûr de vouloir vider la liste ?',
+      clearTitle: 'Vider la liste',
       recipe: 'Recette',
       settings: 'Paramètres',
       appearance: 'Apparence',
       language: 'Langue',
-      selectLanguage: 'Choisir la langue',
+      selectLanguage: 'Sélectionner la langue',
       darkTheme: 'Thème sombre',
       lightTheme: 'Thème clair',
       appName: 'Liste de courses',
+      noFavorites: 'Vous n\'avez pas encore de recettes favorites'
     },
-    messages: {
-      loadingIngredients: 'Obtention de la liste des ingrédients...',
-      gettingRecipe: 'Obtention de la recette...',
-    },
-    buttons: {
-      clearAll: 'Tout effacer',
-      cancel: 'Annuler',
-      confirm: 'Confirmer',
-      recipe: 'Recette',
+    errors: {
+      emptyItem: 'Veuillez entrer un nom de produit',
+      aiError: 'Erreur lors de la récupération des ingrédients. Veuillez réessayer'
     },
     languages: {
       ru: 'Русский',
@@ -203,19 +213,26 @@ const translations: Record<Language, Translations> = {
       zh: '中文',
       pl: 'Polski',
       it: 'Italiano',
-      es: 'Español',
-    },
+      es: 'Español'
+    }
   },
   zh: {
-    errors: {
-      emptyItem: '请输入产品名称',
-      aiError: '获取配料时出错。请重试',
+    buttons: {
+      clearAll: '清空列表',
+      cancel: '取消',
+      confirm: '确认',
+      recipe: '食谱'
+    },
+    titles: {
+      favorites: '收藏夹',
+      shoppingList: '购物清单',
+      settings: '设置'
     },
     alerts: {
       error: '错误',
-      loading: '加载中',
-      clearConfirm: '您确定要清除整个列表吗？',
-      clearTitle: '清除列表',
+      loading: '加载中...',
+      clearConfirm: '确定要清空列表吗？',
+      clearTitle: '清空列表',
       recipe: '食谱',
       settings: '设置',
       appearance: '外观',
@@ -224,16 +241,11 @@ const translations: Record<Language, Translations> = {
       darkTheme: '深色主题',
       lightTheme: '浅色主题',
       appName: '购物清单',
+      noFavorites: '您还没有收藏的食谱'
     },
-    messages: {
-      loadingIngredients: '正在获取配料列表...',
-      gettingRecipe: '正在获取食谱...',
-    },
-    buttons: {
-      clearAll: '清除全部',
-      cancel: '取消',
-      confirm: '确认',
-      recipe: '食谱',
+    errors: {
+      emptyItem: '请输入商品名称',
+      aiError: '获取配料时出错，请重试'
     },
     languages: {
       ru: 'Русский',
@@ -244,18 +256,25 @@ const translations: Record<Language, Translations> = {
       zh: '中文',
       pl: 'Polski',
       it: 'Italiano',
-      es: 'Español',
-    },
+      es: 'Español'
+    }
   },
   pl: {
-    errors: {
-      emptyItem: 'Proszę wprowadzić nazwę produktu',
-      aiError: 'Błąd podczas pobierania składników. Spróbuj ponownie',
+    buttons: {
+      clearAll: 'Wyczyść listę',
+      cancel: 'Anuluj',
+      confirm: 'Potwierdź',
+      recipe: 'Przepis'
+    },
+    titles: {
+      favorites: 'Ulubione',
+      shoppingList: 'Lista zakupów',
+      settings: 'Ustawienia'
     },
     alerts: {
       error: 'Błąd',
-      loading: 'Ładowanie',
-      clearConfirm: 'Czy na pewno chcesz wyczyścić całą listę?',
+      loading: 'Ładowanie...',
+      clearConfirm: 'Czy na pewno chcesz wyczyścić listę?',
       clearTitle: 'Wyczyść listę',
       recipe: 'Przepis',
       settings: 'Ustawienia',
@@ -265,16 +284,11 @@ const translations: Record<Language, Translations> = {
       darkTheme: 'Ciemny motyw',
       lightTheme: 'Jasny motyw',
       appName: 'Lista zakupów',
+      noFavorites: 'Nie masz jeszcze ulubionych przepisów'
     },
-    messages: {
-      loadingIngredients: 'Pobieranie listy składników...',
-      gettingRecipe: 'Pobieranie przepisu...',
-    },
-    buttons: {
-      clearAll: 'Wyczyść wszystko',
-      cancel: 'Anuluj',
-      confirm: 'Potwierdź',
-      recipe: 'Przepis',
+    errors: {
+      emptyItem: 'Wprowadź nazwę produktu',
+      aiError: 'Błąd podczas pobierania składników. Spróbuj ponownie'
     },
     languages: {
       ru: 'Русский',
@@ -285,19 +299,26 @@ const translations: Record<Language, Translations> = {
       zh: '中文',
       pl: 'Polski',
       it: 'Italiano',
-      es: 'Español',
-    },
+      es: 'Español'
+    }
   },
   it: {
-    errors: {
-      emptyItem: 'Inserisci il nome del prodotto',
-      aiError: 'Errore durante il recupero degli ingredienti. Riprova',
+    buttons: {
+      clearAll: 'Svuota lista',
+      cancel: 'Annulla',
+      confirm: 'Conferma',
+      recipe: 'Ricetta'
+    },
+    titles: {
+      favorites: 'Preferiti',
+      shoppingList: 'Lista della spesa',
+      settings: 'Impostazioni'
     },
     alerts: {
       error: 'Errore',
-      loading: 'Caricamento',
-      clearConfirm: 'Sei sicuro di voler cancellare l\'intera lista?',
-      clearTitle: 'Cancella lista',
+      loading: 'Caricamento...',
+      clearConfirm: 'Sei sicuro di voler svuotare la lista?',
+      clearTitle: 'Svuota lista',
       recipe: 'Ricetta',
       settings: 'Impostazioni',
       appearance: 'Aspetto',
@@ -306,16 +327,11 @@ const translations: Record<Language, Translations> = {
       darkTheme: 'Tema scuro',
       lightTheme: 'Tema chiaro',
       appName: 'Lista della spesa',
+      noFavorites: 'Non hai ancora ricette preferite'
     },
-    messages: {
-      loadingIngredients: 'Recupero lista ingredienti...',
-      gettingRecipe: 'Recupero ricetta...',
-    },
-    buttons: {
-      clearAll: 'Cancella tutto',
-      cancel: 'Annulla',
-      confirm: 'Conferma',
-      recipe: 'Ricetta',
+    errors: {
+      emptyItem: 'Inserisci il nome del prodotto',
+      aiError: 'Errore durante il recupero degli ingredienti. Riprova'
     },
     languages: {
       ru: 'Русский',
@@ -326,37 +342,39 @@ const translations: Record<Language, Translations> = {
       zh: '中文',
       pl: 'Polski',
       it: 'Italiano',
-      es: 'Español',
-    },
+      es: 'Español'
+    }
   },
   es: {
-    errors: {
-      emptyItem: 'Por favor, ingrese un nombre de producto',
-      aiError: 'Error al obtener los ingredientes. Inténtalo de nuevo',
+    buttons: {
+      clearAll: 'Vaciar lista',
+      cancel: 'Cancelar',
+      confirm: 'Confirmar',
+      recipe: 'Receta'
+    },
+    titles: {
+      favorites: 'Favoritos',
+      shoppingList: 'Lista de compras',
+      settings: 'Configuración'
     },
     alerts: {
       error: 'Error',
-      loading: 'Cargando',
-      clearConfirm: '¿Estás seguro de que quieres borrar toda la lista?',
-      clearTitle: 'Borrar lista',
+      loading: 'Cargando...',
+      clearConfirm: '¿Estás seguro de que quieres vaciar la lista?',
+      clearTitle: 'Vaciar lista',
       recipe: 'Receta',
-      settings: 'Ajustes',
+      settings: 'Configuración',
       appearance: 'Apariencia',
       language: 'Idioma',
       selectLanguage: 'Seleccionar idioma',
       darkTheme: 'Tema oscuro',
       lightTheme: 'Tema claro',
       appName: 'Lista de compras',
+      noFavorites: 'Aún no tienes recetas favoritas'
     },
-    messages: {
-      loadingIngredients: 'Obteniendo lista de ingredientes...',
-      gettingRecipe: 'Obteniendo receta...',
-    },
-    buttons: {
-      clearAll: 'Borrar todo',
-      cancel: 'Cancelar',
-      confirm: 'Confirmar',
-      recipe: 'Receta',
+    errors: {
+      emptyItem: 'Por favor, introduce el nombre del producto',
+      aiError: 'Error al obtener los ingredientes. Inténtalo de nuevo'
     },
     languages: {
       ru: 'Русский',
@@ -367,9 +385,9 @@ const translations: Record<Language, Translations> = {
       zh: '中文',
       pl: 'Polski',
       it: 'Italiano',
-      es: 'Español',
-    },
-  },
+      es: 'Español'
+    }
+  }
 };
 
 export const getTranslation = (language: Language): Translations => translations[language]; 
