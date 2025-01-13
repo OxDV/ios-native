@@ -50,15 +50,13 @@ export const useShoppingList = (language: Language, theme: Theme) => {
       setIsLoading(true);
       const t = getTranslation(language);
       
-      const response = await getRecipeWithIngredients(item);
+      const response = await getRecipeWithIngredients(item, language);
       const ingredients = response
         .split('\n')
         .filter(line => line.trim().startsWith('-'))
         .map(line => line.trim().substring(2).trim());
       
-      // Получаем слово "Рецепт" на текущем языке
       const recipeWord = t.alerts.recipe;
-      // Ищем рецепт после слова "Рецепт:" на любом языке
       const recipeSection = response.split(new RegExp(`${recipeWord}:|Recipe:|Rezept:|Recette:|食谱:|Przepis:|Ricetta:|Receta:`))[1];
       if (recipeSection) {
         setLastRecipe(recipeSection.trim());
