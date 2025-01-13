@@ -1,11 +1,12 @@
-import React from 'react';
-import { View, TouchableOpacity, ActivityIndicator, Text, FlatList } from 'react-native';
+import React, { useState } from 'react';
+import { View, TouchableOpacity, ActivityIndicator, Text, Modal } from 'react-native';
 import { Theme, Language } from '../types';
 import { styles } from '../styles/styles';
-import { ShoppingItem } from './ShoppingItem';
 import { AddItem } from './AddItem';
 import { getTranslation } from '../translations';
 import { useShoppingList } from '../hooks/useShoppingList';
+import { Ionicons } from '@expo/vector-icons';
+import { RecipeBottomSheet } from './RecipeBottomSheet';
 
 type Props = {
   theme: Theme;
@@ -13,12 +14,14 @@ type Props = {
 };
 
 export const ShoppingList: React.FC<Props> = ({ theme, language }) => {
+  const [isBottomSheetVisible, setIsBottomSheetVisible] = useState(false);
   const {
     items,
     item,
     editingItem,
     editingId,
     isLoading,
+    recipe,
     setItem,
     setEditingItem,
     addItem,
@@ -27,7 +30,8 @@ export const ShoppingList: React.FC<Props> = ({ theme, language }) => {
     saveEdit,
     togglePurchased,
     clearAllItems,
-    showRecipe
+    showRecipe,
+    deleteRecipe
   } = useShoppingList(language, theme);
 
   const t = getTranslation(language);
@@ -43,52 +47,63 @@ export const ShoppingList: React.FC<Props> = ({ theme, language }) => {
         isLoading={isLoading}
       />
 
-      {items.length > 0 && (
-        <View style={styles.buttonsContainer}>
-          <TouchableOpacity
-            style={[styles.recipeButton, theme === 'dark' && styles.recipeButtonDark]}
-            onPress={showRecipe}
-          >
-            <Text style={styles.buttonText}>
-              {t.buttons.recipe}
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.clearButton, theme === 'dark' && styles.clearButtonDark]}
-            onPress={clearAllItems}
-          >
-            <Text style={styles.buttonText}>
-              {t.buttons.clearAll}
-            </Text>
-          </TouchableOpacity>
-        </View>
-      )}
-
       {isLoading && (
         <View style={[styles.overlay, styles.loadingOverlay]}>
           <ActivityIndicator size="large" color={theme === 'dark' ? '#fff' : '#000'} />
         </View>
       )}
 
-      <FlatList
-        data={items}
-        renderItem={({ item: listItem }) => (
-          <ShoppingItem
-            item={listItem}
-            theme={theme}
-            language={language}
-            editingId={editingId}
-            editingItem={editingItem}
-            onEdit={startEditing}
-            onSaveEdit={saveEdit}
-            onDelete={deleteItem}
-            onToggle={togglePurchased}
-            setEditingItem={setEditingItem}
-          />
-        )}
-        keyExtractor={item => item.id}
-        style={[styles.list, theme === 'dark' && styles.darkList]}
-      />
+      {recipe && (
+        <TouchableOpacity
+          onPress={() => setIsBottomSheetVisible(true)}
+        >
+          <View style={[
+            styles.recipeCard,
+            theme === 'dark' && styles.darkRecipeCard
+          ]}>
+            <Text style={[
+              styles.recipeTitle,
+              theme === 'dark' && styles.darkRecipeTitle
+            ]}>
+              {recipe.name}
+            </Text>
+            <TouchableOpacity
+              onPress={deleteRecipe}
+              style={styles.deleteRecipeButton}
+            >
+              <Ionicons
+                name="trash-outline"
+                size={24}
+                color={theme === 'dark' ? '#fff' : '#000'}
+              />
+            </TouchableOpacity>
+          </View>
+        </TouchableOpacity>
+      )}
+
+      <Modal
+        visible={isBottomSheetVisible}
+        transparent
+        animationType="none"
+        onRequestClose={() => setIsBottomSheetVisible(false)}
+      >
+        <RecipeBottomSheet
+          visible={isBottomSheetVisible}
+          onClose={() => setIsBottomSheetVisible(false)}
+          theme={theme}
+          language={language}
+          items={items}
+          onShowRecipe={showRecipe}
+          onClearAll={clearAllItems}
+          editingId={editingId}
+          editingItem={editingItem}
+          onEdit={startEditing}
+          onSaveEdit={saveEdit}
+          onDelete={deleteItem}
+          onToggle={togglePurchased}
+          setEditingItem={setEditingItem}
+        />
+      </Modal>
     </View>
   );
 }; 

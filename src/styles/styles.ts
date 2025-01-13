@@ -237,4 +237,58 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
+  recipeCard: {
+    backgroundColor: '#f8f8f8',
+    padding: 15,
+    borderRadius: 8,
+    marginHorizontal: 20,
+    marginBottom: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  darkRecipeCard: {
+    backgroundColor: '#2a2a2a',
+  },
+  recipeTitle: {
+    fontSize: 16,
+    color: '#333',
+    flex: 1,
+  },
+  darkRecipeTitle: {
+    color: '#fff',
+  },
+  deleteRecipeButton: {
+    padding: 5,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'flex-end',
+  },
+  modalContainer: {
+    flex: 1,
+    backgroundColor: 'transparent',
+    justifyContent: 'flex-end',
+  },
+  bottomSheet: {
+    backgroundColor: '#fff',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    minHeight: '75%',
+    maxHeight: '90%',
+    padding: 20,
+    paddingTop: 10,
+  },
+  darkBottomSheet: {
+    backgroundColor: '#1a1a1a',
+  },
+  bottomSheetHandle: {
+    width: 40,
+    height: 4,
+    backgroundColor: '#ccc',
+    borderRadius: 2,
+    alignSelf: 'center',
+    marginBottom: 10,
+  },
 }); 

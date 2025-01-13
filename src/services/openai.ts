@@ -1,14 +1,17 @@
 import OpenAI from "openai";
 import { OPENAI_API_KEY } from "@env";
+import { Language } from "../types";
 
 const openai = new OpenAI({
   apiKey: OPENAI_API_KEY,
 });
 
-const COOKING_PROMPT = `You are a cooking assistant. When user inputs a dish name, analyze the language of the input and respond with ingredients list and recipe in the specified language. Include detailed timing for each step. Format the response exactly as shown in the examples below.
+const COOKING_PROMPT = `You are a cooking assistant. When user inputs a dish name, analyze the language of the input and respond with dish name, ingredients list and recipe in the specified language. Include detailed timing for each step. Format the response exactly as shown in the examples below.
 
 Examples:
 If language is Russian:
+Название: Кутья
+
 Ингредиенты:
 - Пшеница (500гр)
 - Мак (200гр)
@@ -23,6 +26,8 @@ If language is Russian:
 2. Залить пшеницу водой в пропорции 1:3 и варить на медленном огне до мягкости (60-70 минут)
 
 If language is English:
+Name: Kutia
+
 Ingredients:
 - Wheat berries (500g)
 - Poppy seeds (200g)
@@ -36,7 +41,7 @@ Total cooking time: 4-5 hours (including resting time)
 1. Thoroughly rinse wheat berries several times in cold water (3-4 minutes)
 2. Cover wheat with water in 1:3 ratio and cook on low heat until soft (60-70 minutes)
 
-Always respond in the specified language and maintain this exact format with detailed timing for each step.`;
+Always start with the dish name, then ingredients and recipe. Respond in the specified language and maintain this exact format with detailed timing for each step.`;
 
 export const getRecipeWithIngredients = async (dishName: string, language: Language): Promise<string> => {
   try {
