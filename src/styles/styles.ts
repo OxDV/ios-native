@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 20,
-    paddingTop: 60,
+    paddingTop: 0,
     paddingBottom: 20,
     backgroundColor: '#fff',
     borderBottomWidth: 1,
@@ -30,7 +30,7 @@ export const styles = StyleSheet.create({
     padding: 5,
   },
   title: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: 'bold',
     color: '#333',
   },

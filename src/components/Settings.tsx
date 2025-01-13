@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     color: '#333',
     paddingHorizontal: 20,
-    marginTop: 20,
+    marginTop: 0,
   },
   darkText: {
     color: '#fff',
