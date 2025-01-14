@@ -126,7 +126,11 @@ export const useShoppingList = (language: Language, theme: Theme) => {
   };
 
   const deleteRecipe = (recipeToDelete: Recipe) => {
-    setRecipes(prevRecipes => prevRecipes.filter(r => r.name !== recipeToDelete.name));
+    setRecipes(prevRecipes => {
+      const newRecipes = prevRecipes.filter(r => r.name !== recipeToDelete.name);
+      saveRecipes(newRecipes);
+      return newRecipes;
+    });
     if (selectedRecipe?.name === recipeToDelete.name) {
       setSelectedRecipe(null);
     }
