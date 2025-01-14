@@ -56,4 +56,5 @@ export type Recipe = {
   ingredients: string[];
   instructions: string;
   isFavorite: boolean;
+  purchasedStates?: boolean[];
 }; 
