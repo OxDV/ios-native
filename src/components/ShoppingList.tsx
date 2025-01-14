@@ -1,15 +1,14 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, TouchableOpacity, ActivityIndicator, Text, Modal, ScrollView } from 'react-native';
 import { Theme, Language, Recipe, Item } from '../types';
 import { styles } from '../styles/styles';
 import { AddItem } from './AddItem';
 import { getTranslation } from '../translations';
 import { useShoppingList } from '../hooks/useShoppingList';
+import { useMergedIngredients } from '../hooks/useMergedIngredients';
 import { Ionicons } from '@expo/vector-icons';
 import { RecipeBottomSheet } from './RecipeBottomSheet';
 import { createShoppingItem } from '../utils/shopping';
-import { mergeRecipeIngredients } from '../services/openai';
-import { ShoppingItem } from './ShoppingItem';
 
 type Props = {
   theme: Theme;
@@ -21,10 +20,7 @@ export const ShoppingList: React.FC<Props> = ({ theme, language }) => {
   const [isMergedIngredientsVisible, setIsMergedIngredientsVisible] = useState(false);
   const [recipeEditingId, setRecipeEditingId] = useState<string | null>(null);
   const [recipeEditingItem, setRecipeEditingItem] = useState('');
-  const [mergedIngredients, setMergedIngredients] = useState<string[]>([]);
-  const [isMergingIngredients, setIsMergingIngredients] = useState(false);
-  const [mergedItems, setMergedItems] = useState<Item[]>([]);
-  const [previousRecipesLength, setPreviousRecipesLength] = useState(0);
+
   const {
     items,
     item,
@@ -50,30 +46,16 @@ export const ShoppingList: React.FC<Props> = ({ theme, language }) => {
     updateRecipeIngredients
   } = useShoppingList(language, theme);
 
+  const {
+    mergedItems,
+    isMergingIngredients,
+    handleToggleMergedItem,
+    handleDeleteMergedItem,
+    handleClearMergedItems,
+    handleUpdateMergedItem
+  } = useMergedIngredients(recipes, language);
+
   const t = getTranslation(language);
-
-  useEffect(() => {
-    const updateMergedIngredients = async () => {
-      if (recipes.length === 2 && previousRecipesLength === 1) {
-        setIsMergingIngredients(true);
-        try {
-          const merged = await mergeRecipeIngredients(recipes, language);
-          setMergedIngredients(merged);
-          setMergedItems(merged.map(ingredient => createShoppingItem(ingredient)));
-        } catch (error) {
-          console.error('Error merging ingredients:', error);
-        } finally {
-          setIsMergingIngredients(false);
-        }
-      } else if (recipes.length < 2) {
-        setMergedIngredients([]);
-        setMergedItems([]);
-      }
-      setPreviousRecipesLength(recipes.length);
-    };
-
-    updateMergedIngredients();
-  }, [recipes.length, language]);
 
   const handleRecipePress = (recipe: Recipe) => {
     setSelectedRecipe(recipe);
@@ -87,6 +69,22 @@ export const ShoppingList: React.FC<Props> = ({ theme, language }) => {
       }));
     }
     setIsBottomSheetVisible(true);
+  };
+
+  const handleShowMergedIngredients = () => {
+    setIsMergedIngredientsVisible(true);
+  };
+
+  const handleStartEditingMerged = (id: string, name: string) => {
+    setRecipeEditingId(id);
+    setRecipeEditingItem(name);
+  };
+
+  const handleSaveEditMerged = (id: string) => {
+    if (!recipeEditingItem.trim()) return;
+    handleUpdateMergedItem(id, recipeEditingItem);
+    setRecipeEditingId(null);
+    setRecipeEditingItem('');
   };
 
   const handleToggleRecipeItem = (id: string) => {
@@ -150,35 +148,6 @@ export const ShoppingList: React.FC<Props> = ({ theme, language }) => {
         return newItems;
       });
     }
-  };
-
-  const handleShowMergedIngredients = () => {
-    setIsMergedIngredientsVisible(true);
-  };
-
-  const handleToggleMergedItem = (id: string) => {
-    setMergedItems(prev => prev.map(item =>
-      item.id === id ? { ...item, purchased: !item.purchased } : item
-    ));
-  };
-
-  const handleDeleteMergedItem = (id: string) => {
-    setMergedItems(prev => prev.filter(item => item.id !== id));
-  };
-
-  const handleStartEditingMerged = (id: string, name: string) => {
-    setRecipeEditingId(id);
-    setRecipeEditingItem(name);
-  };
-
-  const handleSaveEditMerged = (id: string) => {
-    if (!recipeEditingItem.trim()) return;
-
-    setMergedItems(prev => prev.map(item =>
-      item.id === id ? { ...item, name: recipeEditingItem.trim() } : item
-    ));
-    setRecipeEditingId(null);
-    setRecipeEditingItem('');
   };
 
   return (
@@ -302,7 +271,7 @@ export const ShoppingList: React.FC<Props> = ({ theme, language }) => {
           language={language}
           items={mergedItems}
           onShowRecipe={() => {}}
-          onClearAll={() => setMergedItems([])}
+          onClearAll={handleClearMergedItems}
           editingId={recipeEditingId}
           editingItem={recipeEditingItem}
           onEdit={handleStartEditingMerged}
