@@ -6,7 +6,8 @@ export const translations = {
       clearAll: 'Очистить список',
       cancel: 'Отмена',
       confirm: 'Подтвердить',
-      recipe: 'Рецепт'
+      recipe: 'Рецепт',
+      showMergedIngredients: 'Показать общий список ингредиентов'
     },
     titles: {
       favorites: 'Избранное',
@@ -42,14 +43,18 @@ export const translations = {
       pl: 'Polski',
       it: 'Italiano',
       es: 'Español'
-    }
+    },
+    shoppingList: {
+      mergedIngredients: 'Общий список ингредиентов:',
+    },
   },
   en: {
     buttons: {
       clearAll: 'Clear list',
       cancel: 'Cancel',
       confirm: 'Confirm',
-      recipe: 'Recipe'
+      recipe: 'Recipe',
+      showMergedIngredients: 'Show Combined Ingredients List'
     },
     titles: {
       favorites: 'Favorites',
@@ -85,14 +90,18 @@ export const translations = {
       pl: 'Polski',
       it: 'Italiano',
       es: 'Español'
-    }
+    },
+    shoppingList: {
+      mergedIngredients: 'Combined Ingredients List:',
+    },
   },
   uk: {
     buttons: {
       clearAll: 'Очистити список',
       cancel: 'Скасувати',
       confirm: 'Підтвердити',
-      recipe: 'Рецепт'
+      recipe: 'Рецепт',
+      showMergedIngredients: 'Показати загальний список інгредієнтів'
     },
     titles: {
       favorites: 'Обране',
@@ -128,14 +137,18 @@ export const translations = {
       pl: 'Polski',
       it: 'Italiano',
       es: 'Español'
-    }
+    },
+    shoppingList: {
+      mergedIngredients: 'Общий список ингредиентов:',
+    },
   },
   de: {
     buttons: {
       clearAll: 'Liste leeren',
       cancel: 'Abbrechen',
       confirm: 'Bestätigen',
-      recipe: 'Rezept'
+      recipe: 'Rezept',
+      showMergedIngredients: 'Gemeinsames Zutaten-Liste anzeigen'
     },
     titles: {
       favorites: 'Favoriten',
@@ -171,14 +184,18 @@ export const translations = {
       pl: 'Polski',
       it: 'Italiano',
       es: 'Español'
-    }
+    },
+    shoppingList: {
+      mergedIngredients: 'Общий список ингредиентов:',
+    },
   },
   fr: {
     buttons: {
       clearAll: 'Vider la liste',
       cancel: 'Annuler',
       confirm: 'Confirmer',
-      recipe: 'Recette'
+      recipe: 'Recette',
+      showMergedIngredients: 'Afficher la liste des ingrédients combinés'
     },
     titles: {
       favorites: 'Favoris',
@@ -214,14 +231,18 @@ export const translations = {
       pl: 'Polski',
       it: 'Italiano',
       es: 'Español'
-    }
+    },
+    shoppingList: {
+      mergedIngredients: 'Общий список ингредиентов:',
+    },
   },
   zh: {
     buttons: {
       clearAll: '清空列表',
       cancel: '取消',
       confirm: '确认',
-      recipe: '食谱'
+      recipe: '食谱',
+      showMergedIngredients: '显示所有配料列表'
     },
     titles: {
       favorites: '收藏夹',
@@ -257,14 +278,18 @@ export const translations = {
       pl: 'Polski',
       it: 'Italiano',
       es: 'Español'
-    }
+    },
+    shoppingList: {
+      mergedIngredients: '所有配料列表:',
+    },
   },
   pl: {
     buttons: {
       clearAll: 'Wyczyść listę',
       cancel: 'Anuluj',
       confirm: 'Potwierdź',
-      recipe: 'Przepis'
+      recipe: 'Przepis',
+      showMergedIngredients: 'Pokaż listę wspólnych składników'
     },
     titles: {
       favorites: 'Ulubione',
@@ -300,14 +325,18 @@ export const translations = {
       pl: 'Polski',
       it: 'Italiano',
       es: 'Español'
-    }
+    },
+    shoppingList: {
+      mergedIngredients: 'Wspólna lista składników:',
+    },
   },
   it: {
     buttons: {
       clearAll: 'Svuota lista',
       cancel: 'Annulla',
       confirm: 'Conferma',
-      recipe: 'Ricetta'
+      recipe: 'Ricetta',
+      showMergedIngredients: 'Mostra lista degli ingredienti combinati'
     },
     titles: {
       favorites: 'Preferiti',
@@ -343,14 +372,18 @@ export const translations = {
       pl: 'Polski',
       it: 'Italiano',
       es: 'Español'
-    }
+    },
+    shoppingList: {
+      mergedIngredients: 'Lista degli ingredienti combinati:',
+    },
   },
   es: {
     buttons: {
       clearAll: 'Vaciar lista',
       cancel: 'Cancelar',
       confirm: 'Confirmar',
-      recipe: 'Receta'
+      recipe: 'Receta',
+      showMergedIngredients: 'Mostrar lista de ingredientes combinados'
     },
     titles: {
       favorites: 'Favoritos',
@@ -386,7 +419,10 @@ export const translations = {
       pl: 'Polski',
       it: 'Italiano',
       es: 'Español'
-    }
+    },
+    shoppingList: {
+      mergedIngredients: 'Lista de ingredientes combinados:',
+    },
   }
 };
 

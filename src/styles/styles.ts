@@ -327,4 +327,39 @@ export const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 10,
   },
+  mergedIngredientsContainer: {
+    marginTop: 20,
+    padding: 15,
+    backgroundColor: '#f5f5f5',
+    borderRadius: 10,
+    marginHorizontal: 10,
+  },
+  darkMergedIngredientsContainer: {
+    backgroundColor: '#2a2a2a',
+  },
+  mergedIngredientsTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  mergedIngredient: {
+    fontSize: 16,
+    marginVertical: 4,
+  },
+  showMergedButton: {
+    backgroundColor: '#4CAF50',
+    padding: 15,
+    borderRadius: 8,
+    marginHorizontal: 20,
+    marginVertical: 10,
+    alignItems: 'center',
+  },
+  darkShowMergedButton: {
+    backgroundColor: '#388E3C',
+  },
+  showMergedButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
 }); 

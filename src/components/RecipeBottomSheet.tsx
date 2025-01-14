@@ -20,6 +20,7 @@ type Props = {
   onDelete: (id: string) => void;
   onToggle: (id: string) => void;
   setEditingItem: (value: string) => void;
+  hideRecipeButton?: boolean;
 };
 
 export const RecipeBottomSheet: React.FC<Props> = ({
@@ -37,6 +38,7 @@ export const RecipeBottomSheet: React.FC<Props> = ({
   onDelete,
   onToggle,
   setEditingItem,
+  hideRecipeButton,
 }) => {
   const t = getTranslation(language);
   const slideAnim = useRef(new Animated.Value(1000)).current;
@@ -80,16 +82,22 @@ export const RecipeBottomSheet: React.FC<Props> = ({
           <View style={styles.bottomSheetHandle} />
           
           <View style={styles.buttonsContainer}>
+            {!hideRecipeButton && (
+              <TouchableOpacity
+                style={[styles.recipeButton, theme === 'dark' && styles.recipeButtonDark]}
+                onPress={onShowRecipe}
+              >
+                <Text style={styles.buttonText}>
+                  {t.buttons.recipe}
+                </Text>
+              </TouchableOpacity>
+            )}
             <TouchableOpacity
-              style={[styles.recipeButton, theme === 'dark' && styles.recipeButtonDark]}
-              onPress={onShowRecipe}
-            >
-              <Text style={styles.buttonText}>
-                {t.buttons.recipe}
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.clearButton, theme === 'dark' && styles.clearButtonDark]}
+              style={[
+                styles.clearButton,
+                theme === 'dark' && styles.clearButtonDark,
+                !hideRecipeButton && { flex: 1 }
+              ]}
               onPress={onClearAll}
             >
               <Text style={styles.buttonText}>

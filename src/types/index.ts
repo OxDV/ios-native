@@ -13,6 +13,7 @@ export type Translations = {
     cancel: string;
     confirm: string;
     recipe: string;
+    showMergedIngredients: string;
   };
   titles: {
     favorites: string;

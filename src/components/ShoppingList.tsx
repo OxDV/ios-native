@@ -1,6 +1,6 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { View, TouchableOpacity, ActivityIndicator, Text, Modal, ScrollView } from 'react-native';
-import { Theme, Language, Recipe } from '../types';
+import { Theme, Language, Recipe, Item } from '../types';
 import { styles } from '../styles/styles';
 import { AddItem } from './AddItem';
 import { getTranslation } from '../translations';
@@ -8,6 +8,8 @@ import { useShoppingList } from '../hooks/useShoppingList';
 import { Ionicons } from '@expo/vector-icons';
 import { RecipeBottomSheet } from './RecipeBottomSheet';
 import { createShoppingItem } from '../utils/shopping';
+import { mergeRecipeIngredients } from '../services/openai';
+import { ShoppingItem } from './ShoppingItem';
 
 type Props = {
   theme: Theme;
@@ -16,8 +18,13 @@ type Props = {
 
 export const ShoppingList: React.FC<Props> = ({ theme, language }) => {
   const [isBottomSheetVisible, setIsBottomSheetVisible] = useState(false);
+  const [isMergedIngredientsVisible, setIsMergedIngredientsVisible] = useState(false);
   const [recipeEditingId, setRecipeEditingId] = useState<string | null>(null);
   const [recipeEditingItem, setRecipeEditingItem] = useState('');
+  const [mergedIngredients, setMergedIngredients] = useState<string[]>([]);
+  const [isMergingIngredients, setIsMergingIngredients] = useState(false);
+  const [mergedItems, setMergedItems] = useState<Item[]>([]);
+  const [previousRecipesLength, setPreviousRecipesLength] = useState(0);
   const {
     items,
     item,
@@ -44,6 +51,29 @@ export const ShoppingList: React.FC<Props> = ({ theme, language }) => {
   } = useShoppingList(language, theme);
 
   const t = getTranslation(language);
+
+  useEffect(() => {
+    const updateMergedIngredients = async () => {
+      if (recipes.length === 2 && previousRecipesLength === 1) {
+        setIsMergingIngredients(true);
+        try {
+          const merged = await mergeRecipeIngredients(recipes, language);
+          setMergedIngredients(merged);
+          setMergedItems(merged.map(ingredient => createShoppingItem(ingredient)));
+        } catch (error) {
+          console.error('Error merging ingredients:', error);
+        } finally {
+          setIsMergingIngredients(false);
+        }
+      } else if (recipes.length < 2) {
+        setMergedIngredients([]);
+        setMergedItems([]);
+      }
+      setPreviousRecipesLength(recipes.length);
+    };
+
+    updateMergedIngredients();
+  }, [recipes.length, language]);
 
   const handleRecipePress = (recipe: Recipe) => {
     setSelectedRecipe(recipe);
@@ -122,6 +152,35 @@ export const ShoppingList: React.FC<Props> = ({ theme, language }) => {
     }
   };
 
+  const handleShowMergedIngredients = () => {
+    setIsMergedIngredientsVisible(true);
+  };
+
+  const handleToggleMergedItem = (id: string) => {
+    setMergedItems(prev => prev.map(item =>
+      item.id === id ? { ...item, purchased: !item.purchased } : item
+    ));
+  };
+
+  const handleDeleteMergedItem = (id: string) => {
+    setMergedItems(prev => prev.filter(item => item.id !== id));
+  };
+
+  const handleStartEditingMerged = (id: string, name: string) => {
+    setRecipeEditingId(id);
+    setRecipeEditingItem(name);
+  };
+
+  const handleSaveEditMerged = (id: string) => {
+    if (!recipeEditingItem.trim()) return;
+
+    setMergedItems(prev => prev.map(item =>
+      item.id === id ? { ...item, name: recipeEditingItem.trim() } : item
+    ));
+    setRecipeEditingId(null);
+    setRecipeEditingItem('');
+  };
+
   return (
     <View style={[styles.container, theme === 'dark' && styles.darkContainer]}>
       <AddItem
@@ -133,7 +192,7 @@ export const ShoppingList: React.FC<Props> = ({ theme, language }) => {
         isLoading={isLoading}
       />
 
-      {isLoading && (
+      {(isLoading || isMergingIngredients) && (
         <View style={[styles.overlay, styles.loadingOverlay]}>
           <ActivityIndicator size="large" color={theme === 'dark' ? '#fff' : '#000'} />
         </View>
@@ -187,6 +246,23 @@ export const ShoppingList: React.FC<Props> = ({ theme, language }) => {
             </View>
           </TouchableOpacity>
         ))}
+
+        {recipes.length >= 2 && (
+          <TouchableOpacity
+            onPress={handleShowMergedIngredients}
+            style={[
+              styles.showMergedButton,
+              theme === 'dark' && styles.darkShowMergedButton
+            ]}
+          >
+            <Text style={[
+              styles.showMergedButtonText,
+              theme === 'dark' && styles.darkText
+            ]}>
+              {t.buttons.showMergedIngredients}
+            </Text>
+          </TouchableOpacity>
+        )}
       </ScrollView>
 
       <Modal
@@ -210,6 +286,31 @@ export const ShoppingList: React.FC<Props> = ({ theme, language }) => {
           onDelete={handleDeleteRecipeItem}
           onToggle={handleToggleRecipeItem}
           setEditingItem={setRecipeEditingItem}
+        />
+      </Modal>
+
+      <Modal
+        visible={isMergedIngredientsVisible}
+        transparent
+        animationType="none"
+        onRequestClose={() => setIsMergedIngredientsVisible(false)}
+      >
+        <RecipeBottomSheet
+          visible={isMergedIngredientsVisible}
+          onClose={() => setIsMergedIngredientsVisible(false)}
+          theme={theme}
+          language={language}
+          items={mergedItems}
+          onShowRecipe={() => {}}
+          onClearAll={() => setMergedItems([])}
+          editingId={recipeEditingId}
+          editingItem={recipeEditingItem}
+          onEdit={handleStartEditingMerged}
+          onSaveEdit={handleSaveEditMerged}
+          onDelete={handleDeleteMergedItem}
+          onToggle={handleToggleMergedItem}
+          setEditingItem={setRecipeEditingItem}
+          hideRecipeButton
         />
       </Modal>
     </View>
