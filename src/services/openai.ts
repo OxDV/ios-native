@@ -74,12 +74,15 @@ export const getRecipeWithIngredients = async (dishName: string, language: Langu
 
 export const mergeRecipeIngredients = async (recipes: Recipe[], language: Language): Promise<string[]> => {
   try {
-    const ingredientsList = recipes.map(recipe => recipe.ingredients.join('\n')).join('\n---\n');
-    
+    // Prepare all ingredients from all recipes
+    const allIngredients = recipes.map((recipe, index) => {
+      return `Recipe ${index + 1}:\n${recipe.ingredients.join('\n')}`;
+    }).join('\n\n');
+
     const completion = await openai.chat.completions.create({
       messages: [
         { role: "system", content: MERGE_INGREDIENTS_PROMPT },
-        { role: "user", content: `Please respond in the language: ${language}. Merge these ingredients:\n${ingredientsList}` }
+        { role: "user", content: `Please respond in the language: ${language}. Merge these ingredients from all recipes:\n${allIngredients}` }
       ],
       model: "gpt-3.5-turbo",
       temperature: 0.3,
