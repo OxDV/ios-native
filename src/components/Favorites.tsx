@@ -15,8 +15,10 @@ type Props = {
 
 export const Favorites: React.FC<Props> = ({ theme, language }) => {
   const [isBottomSheetVisible, setIsBottomSheetVisible] = useState(false);
+  const [modifiedRecipeItems, setModifiedRecipeItems] = useState<Record<string, Item[]>>({});
+  const [recipeEditingId, setRecipeEditingId] = useState<string | null>(null);
+  const [recipeEditingItem, setRecipeEditingItem] = useState('');
   const {
-    items,
     editingItem,
     editingId,
     recipes,
@@ -31,22 +33,90 @@ export const Favorites: React.FC<Props> = ({ theme, language }) => {
     deleteRecipe,
     toggleFavorite,
     getFavoriteRecipes,
-    setSelectedRecipe
+    setSelectedRecipe,
+    updateRecipeIngredients
   } = useShoppingList(language, theme);
 
   const t = getTranslation(language);
   const [favoriteRecipes, setFavoriteRecipes] = useState<Recipe[]>([]);
 
   useEffect(() => {
-    console.log('Favorites component - Current recipes:', recipes);
     const favorites = recipes.filter(recipe => recipe.isFavorite);
-    console.log('Favorites component - Filtered favorites:', favorites);
     setFavoriteRecipes(favorites);
   }, [recipes]);
 
   const handleRecipePress = (recipe: Recipe) => {
     setSelectedRecipe(recipe);
+    if (!modifiedRecipeItems[recipe.name]) {
+      setModifiedRecipeItems(prev => ({
+        ...prev,
+        [recipe.name]: recipe.ingredients.map(ingredient => createShoppingItem(ingredient))
+      }));
+    }
     setIsBottomSheetVisible(true);
+  };
+
+  const handleToggleRecipeItem = (id: string) => {
+    if (!selectedRecipe) return;
+    
+    setModifiedRecipeItems(prev => {
+      const newItems = {
+        ...prev,
+        [selectedRecipe.name]: prev[selectedRecipe.name].map(item => 
+          item.id === id ? { ...item, purchased: !item.purchased } : item
+        )
+      };
+      updateRecipeIngredients(selectedRecipe.name, newItems[selectedRecipe.name]);
+      return newItems;
+    });
+  };
+
+  const handleDeleteRecipeItem = (id: string) => {
+    if (!selectedRecipe) return;
+
+    setModifiedRecipeItems(prev => {
+      const newItems = {
+        ...prev,
+        [selectedRecipe.name]: prev[selectedRecipe.name].filter(item => item.id !== id)
+      };
+      updateRecipeIngredients(selectedRecipe.name, newItems[selectedRecipe.name]);
+      return newItems;
+    });
+  };
+
+  const handleStartEditing = (id: string, name: string) => {
+    setRecipeEditingId(id);
+    setRecipeEditingItem(name);
+  };
+
+  const handleSaveEdit = (id: string) => {
+    if (!selectedRecipe || !recipeEditingItem.trim()) return;
+
+    setModifiedRecipeItems(prev => {
+      const newItems = {
+        ...prev,
+        [selectedRecipe.name]: prev[selectedRecipe.name].map(item =>
+          item.id === id ? { ...item, name: recipeEditingItem.trim() } : item
+        )
+      };
+      updateRecipeIngredients(selectedRecipe.name, newItems[selectedRecipe.name]);
+      return newItems;
+    });
+    setRecipeEditingId(null);
+    setRecipeEditingItem('');
+  };
+
+  const handleClearAll = () => {
+    if (selectedRecipe) {
+      setModifiedRecipeItems(prev => {
+        const newItems = {
+          ...prev,
+          [selectedRecipe.name]: []
+        };
+        updateRecipeIngredients(selectedRecipe.name, []);
+        return newItems;
+      });
+    }
   };
 
   return (
@@ -127,16 +197,16 @@ export const Favorites: React.FC<Props> = ({ theme, language }) => {
           onClose={() => setIsBottomSheetVisible(false)}
           theme={theme}
           language={language}
-          items={selectedRecipe ? selectedRecipe.ingredients.map(createShoppingItem) : []}
+          items={selectedRecipe ? modifiedRecipeItems[selectedRecipe.name] || [] : []}
           onShowRecipe={() => selectedRecipe && showRecipe(selectedRecipe)}
-          onClearAll={clearAllItems}
-          editingId={editingId}
-          editingItem={editingItem}
-          onEdit={startEditing}
-          onSaveEdit={saveEdit}
-          onDelete={deleteItem}
-          onToggle={togglePurchased}
-          setEditingItem={setEditingItem}
+          onClearAll={handleClearAll}
+          editingId={recipeEditingId}
+          editingItem={recipeEditingItem}
+          onEdit={handleStartEditing}
+          onSaveEdit={handleSaveEdit}
+          onDelete={handleDeleteRecipeItem}
+          onToggle={handleToggleRecipeItem}
+          setEditingItem={setRecipeEditingItem}
         />
       </Modal>
     </SafeAreaView>

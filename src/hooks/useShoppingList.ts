@@ -153,6 +153,18 @@ export const useShoppingList = (language: Language, theme: Theme) => {
     return favorites;
   };
 
+  const updateRecipeIngredients = (recipeName: string, ingredients: Item[]) => {
+    setRecipes(prevRecipes => {
+      const newRecipes = prevRecipes.map(recipe =>
+        recipe.name === recipeName
+          ? { ...recipe, ingredients: ingredients.map(item => item.name) }
+          : recipe
+      );
+      saveRecipes(newRecipes);
+      return newRecipes;
+    });
+  };
+
   return {
     items,
     item,
@@ -173,6 +185,7 @@ export const useShoppingList = (language: Language, theme: Theme) => {
     showRecipe,
     deleteRecipe,
     toggleFavorite,
-    getFavoriteRecipes
+    getFavoriteRecipes,
+    updateRecipeIngredients
   };
 }; 
