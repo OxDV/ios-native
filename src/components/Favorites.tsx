@@ -15,7 +15,6 @@ type Props = {
 
 export const Favorites: React.FC<Props> = ({ theme, language }) => {
   const [isBottomSheetVisible, setIsBottomSheetVisible] = useState(false);
-  const [modifiedRecipeItems, setModifiedRecipeItems] = useState<Record<string, Item[]>>({});
   const [recipeEditingId, setRecipeEditingId] = useState<string | null>(null);
   const [recipeEditingItem, setRecipeEditingItem] = useState('');
   const {
@@ -23,6 +22,7 @@ export const Favorites: React.FC<Props> = ({ theme, language }) => {
     editingId,
     recipes,
     selectedRecipe,
+    modifiedRecipeItems,
     setEditingItem,
     deleteItem,
     startEditing,
@@ -34,6 +34,7 @@ export const Favorites: React.FC<Props> = ({ theme, language }) => {
     toggleFavorite,
     getFavoriteRecipes,
     setSelectedRecipe,
+    setModifiedRecipeItems,
     updateRecipeIngredients
   } = useShoppingList(language, theme);
 

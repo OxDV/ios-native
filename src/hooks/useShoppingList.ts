@@ -14,6 +14,7 @@ export const useShoppingList = (language: Language, theme: Theme) => {
   const [isLoading, setIsLoading] = useState(false);
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
+  const [modifiedRecipeItems, setModifiedRecipeItems] = useState<Record<string, Item[]>>({});
 
   // Загрузка сохраненных данных при инициализации
   useEffect(() => {
@@ -130,11 +131,20 @@ export const useShoppingList = (language: Language, theme: Theme) => {
   };
 
   const deleteRecipe = (recipeToDelete: Recipe) => {
+    // Удаляем рецепт из основного списка рецептов
     setRecipes(prevRecipes => {
       const newRecipes = prevRecipes.filter(r => r.name !== recipeToDelete.name);
       saveRecipes(newRecipes);
       return newRecipes;
     });
+
+    // Очищаем modifiedRecipeItems для удаленного рецепта
+    setModifiedRecipeItems(prev => {
+      const { [recipeToDelete.name]: _, ...rest } = prev;
+      return rest;
+    });
+
+    // Сбрасываем выбранный рецепт, если это был он
     if (selectedRecipe?.name === recipeToDelete.name) {
       setSelectedRecipe(null);
     }
@@ -185,9 +195,11 @@ export const useShoppingList = (language: Language, theme: Theme) => {
     isLoading,
     recipes,
     selectedRecipe,
+    modifiedRecipeItems,
     setItem,
     setEditingItem,
     setSelectedRecipe,
+    setModifiedRecipeItems,
     addItem,
     deleteItem,
     startEditing,
