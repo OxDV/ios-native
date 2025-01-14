@@ -8,6 +8,7 @@ import { BottomTabBar } from './src/components/BottomTabBar';
 import { useTheme } from './src/hooks/useTheme';
 import { useLanguage } from './src/hooks/useLanguage';
 import { useActiveTab } from './src/hooks/useActiveTab';
+import { ShoppingListProvider } from './src/context/ShoppingListContext';
 
 export default function App() {
   const { theme, toggleTheme } = useTheme();
@@ -35,24 +36,26 @@ export default function App() {
   };
 
   return (
-    <View style={[styles.container, theme === 'dark' && styles.darkContainer]}>
-      {activeTab === 'list' && (
-        <Header
+    <ShoppingListProvider language={language} theme={theme}>
+      <View style={[styles.container, theme === 'dark' && styles.darkContainer]}>
+        {activeTab === 'list' && (
+          <Header
+            theme={theme}
+            language={language}
+          />
+        )}
+
+        <View style={styles.content}>
+          {renderContent()}
+        </View>
+
+        <BottomTabBar
           theme={theme}
-          language={language}
+          activeTab={activeTab}
+          onTabPress={handleTabPress}
         />
-      )}
-
-      <View style={styles.content}>
-        {renderContent()}
       </View>
-
-      <BottomTabBar
-        theme={theme}
-        activeTab={activeTab}
-        onTabPress={handleTabPress}
-      />
-    </View>
+    </ShoppingListProvider>
   );
 }
 
@@ -66,7 +69,7 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    marginBottom: 60, // Добавляем отступ для BottomTabBar
+    marginBottom: 60,
   },
   emptyContainer: {
     flex: 1,

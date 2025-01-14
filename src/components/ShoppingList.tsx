@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, SetStateAction } from 'react';
 import { View, TouchableOpacity, ActivityIndicator, Text, Modal, ScrollView } from 'react-native';
 import { Theme, Language, Recipe, Item } from '../types';
 import { styles } from '../styles/styles';
 import { AddItem } from './AddItem';
 import { getTranslation } from '../translations';
-import { useShoppingList } from '../hooks/useShoppingList';
+import { useShoppingList } from '../context/ShoppingListContext';
 import { useMergedIngredients } from '../hooks/useMergedIngredients';
 import { Ionicons } from '@expo/vector-icons';
 import { RecipeBottomSheet } from './RecipeBottomSheet';
@@ -44,7 +44,7 @@ export const ShoppingList: React.FC<Props> = ({ theme, language }) => {
     setModifiedRecipeItems,
     toggleFavorite,
     updateRecipeIngredients
-  } = useShoppingList(language, theme);
+  } = useShoppingList();
 
   const {
     mergedItems,
@@ -60,13 +60,16 @@ export const ShoppingList: React.FC<Props> = ({ theme, language }) => {
   const handleRecipePress = (recipe: Recipe) => {
     setSelectedRecipe({...recipe, isFavorite: recipe.isFavorite ?? false});
     if (!modifiedRecipeItems[recipe.name]) {
-      setModifiedRecipeItems(prev => ({
-        ...prev,
-        [recipe.name]: recipe.ingredients.map((ingredient, index) => ({
-          ...createShoppingItem(ingredient),
-          purchased: recipe.purchasedStates?.[index] || false
-        }))
-      }));
+      setModifiedRecipeItems((prev: Record<string, Item[]>) => {
+        const newItems: Record<string, Item[]> = {
+          ...prev,
+          [recipe.name]: recipe.ingredients.map((ingredient: string, index: number) => ({
+            ...createShoppingItem(ingredient),
+            purchased: recipe.purchasedStates?.[index] || false
+          }))
+        };
+        return newItems;
+      });
     }
     setIsBottomSheetVisible(true);
   };
@@ -90,10 +93,10 @@ export const ShoppingList: React.FC<Props> = ({ theme, language }) => {
   const handleToggleRecipeItem = (id: string) => {
     if (!selectedRecipe) return;
     
-    setModifiedRecipeItems(prev => {
-      const newItems = {
+    setModifiedRecipeItems((prev: Record<string, Item[]>) => {
+      const newItems: Record<string, Item[]> = {
         ...prev,
-        [selectedRecipe.name]: prev[selectedRecipe.name].map(item => 
+        [selectedRecipe.name]: prev[selectedRecipe.name].map((item: Item) => 
           item.id === id ? { ...item, purchased: !item.purchased } : item
         )
       };
@@ -105,10 +108,10 @@ export const ShoppingList: React.FC<Props> = ({ theme, language }) => {
   const handleDeleteRecipeItem = (id: string) => {
     if (!selectedRecipe) return;
 
-    setModifiedRecipeItems(prev => {
-      const newItems = {
+    setModifiedRecipeItems((prev: Record<string, Item[]>) => {
+      const newItems: Record<string, Item[]> = {
         ...prev,
-        [selectedRecipe.name]: prev[selectedRecipe.name].filter(item => item.id !== id)
+        [selectedRecipe.name]: prev[selectedRecipe.name].filter((item: Item) => item.id !== id)
       };
       updateRecipeIngredients(selectedRecipe.name, newItems[selectedRecipe.name]);
       return newItems;
@@ -123,10 +126,10 @@ export const ShoppingList: React.FC<Props> = ({ theme, language }) => {
   const handleSaveEdit = (id: string) => {
     if (!selectedRecipe || !recipeEditingItem.trim()) return;
 
-    setModifiedRecipeItems(prev => {
-      const newItems = {
+    setModifiedRecipeItems((prev: Record<string, Item[]>) => {
+      const newItems: Record<string, Item[]> = {
         ...prev,
-        [selectedRecipe.name]: prev[selectedRecipe.name].map(item =>
+        [selectedRecipe.name]: prev[selectedRecipe.name].map((item: Item) =>
           item.id === id ? { ...item, name: recipeEditingItem.trim() } : item
         )
       };
@@ -139,8 +142,8 @@ export const ShoppingList: React.FC<Props> = ({ theme, language }) => {
 
   const handleClearAll = () => {
     if (selectedRecipe) {
-      setModifiedRecipeItems(prev => {
-        const newItems = {
+      setModifiedRecipeItems((prev: Record<string, Item[]>) => {
+        const newItems: Record<string, Item[]> = {
           ...prev,
           [selectedRecipe.name]: []
         };
