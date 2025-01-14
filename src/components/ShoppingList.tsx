@@ -49,7 +49,10 @@ export const ShoppingList: React.FC<Props> = ({ theme, language }) => {
     if (!modifiedRecipeItems[recipe.name]) {
       setModifiedRecipeItems(prev => ({
         ...prev,
-        [recipe.name]: recipe.ingredients.map(ingredient => createShoppingItem(ingredient))
+        [recipe.name]: recipe.ingredients.map((ingredient, index) => ({
+          ...createShoppingItem(ingredient),
+          purchased: recipe.purchasedStates?.[index] || false
+        }))
       }));
     }
     setIsBottomSheetVisible(true);

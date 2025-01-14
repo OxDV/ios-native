@@ -48,7 +48,11 @@ export const useShoppingList = (language: Language, theme: Theme) => {
       const t = getTranslation(language);
       
       const newRecipe = await getRecipeWithIngredients(item, language);
-      setRecipes(prevRecipes => [...prevRecipes, { ...newRecipe, isFavorite: false }]);
+      setRecipes(prevRecipes => [...prevRecipes, { 
+        ...newRecipe, 
+        isFavorite: false,
+        purchasedStates: newRecipe.ingredients.map(() => false)
+      }]);
       
       const newItems = newRecipe.ingredients.map(ingredient => createShoppingItem(ingredient));
       setItems(prevItems => [...prevItems, ...newItems]);
@@ -161,7 +165,11 @@ export const useShoppingList = (language: Language, theme: Theme) => {
     setRecipes(prevRecipes => {
       const newRecipes = prevRecipes.map(recipe =>
         recipe.name === recipeName
-          ? { ...recipe, ingredients: ingredients.map(item => item.name) }
+          ? {
+              ...recipe,
+              ingredients: ingredients.map(item => item.name),
+              purchasedStates: ingredients.map(item => item.purchased)
+            }
           : recipe
       );
       saveRecipes(newRecipes);
