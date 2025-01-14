@@ -58,7 +58,7 @@ export const ShoppingList: React.FC<Props> = ({ theme, language }) => {
   const t = getTranslation(language);
 
   const handleRecipePress = (recipe: Recipe) => {
-    setSelectedRecipe(recipe);
+    setSelectedRecipe({...recipe, isFavorite: recipe.isFavorite ?? false});
     if (!modifiedRecipeItems[recipe.name]) {
       setModifiedRecipeItems(prev => ({
         ...prev,
